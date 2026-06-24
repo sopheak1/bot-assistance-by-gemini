@@ -1,4 +1,6 @@
 from aiogram import Bot, Dispatcher
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.client.session.aiohttp import AiohttpSession
 
 from lifesync.config.settings import settings
 from lifesync.telegram.handlers import chat_setup, habits, projects, tasks
@@ -7,7 +9,10 @@ from lifesync.telegram.middleware.db_middleware import DatabaseMiddleware
 
 
 def create_bot() -> Bot:
-    return Bot(token=settings.BOT_TOKEN)
+    session = None
+    if settings.HTTP_PROXY:
+        session = AiohttpSession(proxy=settings.HTTP_PROXY)
+    return Bot(token=settings.BOT_TOKEN, session=session)
 
 def create_dispatcher() -> Dispatcher:
     dp = Dispatcher()

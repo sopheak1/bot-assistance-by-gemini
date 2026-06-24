@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     DEFAULT_STANDUP_HOUR: int = 9
     DEFAULT_ROLLOVER_HOUR: int = 2
     SENTRY_DSN: str = ""
+    HTTP_PROXY: str | None = None
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
