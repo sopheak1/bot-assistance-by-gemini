@@ -1,16 +1,18 @@
-from aiogram import Router, F, types
+import logging
+
+from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from lifesync.tasks.application.use_cases.create_task import CreateTaskUseCase, CreateTaskRequest
-from lifesync.tasks.infrastructure.sqlite_task_repository import SqliteTaskRepository
-from lifesync.projects.infrastructure.sqlite_project_repository import SqliteProjectRepository
-from lifesync.projects.application.use_cases.list_projects import ListProjectsUseCase
-from lifesync.persistence.uow import SqlAlchemyUnitOfWork
-from lifesync.shared_kernel.domain.clock import SystemClock
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from lifesync.persistence.uow import SqlAlchemyUnitOfWork
+from lifesync.projects.application.use_cases.list_projects import ListProjectsUseCase
+from lifesync.projects.infrastructure.sqlite_project_repository import SqliteProjectRepository
+from lifesync.shared_kernel.domain.clock import SystemClock
+from lifesync.tasks.application.use_cases.create_task import CreateTaskRequest, CreateTaskUseCase
+from lifesync.tasks.infrastructure.sqlite_task_repository import SqliteTaskRepository
 from lifesync.telegram.keyboards.menus import get_main_menu
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-import logging
 
 logger = logging.getLogger(__name__)
 

@@ -1,10 +1,12 @@
 from dataclasses import dataclass
-from lifesync.habits.domain.repository import HabitRepository
+
 from lifesync.habits.domain.entities import Habit
+from lifesync.habits.domain.repository import HabitRepository
 from lifesync.habits.domain.value_objects import HabitType, Streak
-from lifesync.shared_kernel.domain.value_objects import ChatId
 from lifesync.shared_kernel.application.unit_of_work import UnitOfWork
 from lifesync.shared_kernel.domain.clock import Clock
+from lifesync.shared_kernel.domain.value_objects import ChatId
+
 
 @dataclass
 class CreateHabitRequest:

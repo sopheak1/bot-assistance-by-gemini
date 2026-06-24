@@ -1,11 +1,14 @@
+import logging
 from dataclasses import dataclass
+
 from lifesync.chat_context.domain.repository import ChatBindingRepository
-from lifesync.shared_kernel.domain.value_objects import ChatId
-from lifesync.tasks.application.use_cases.list_unfinished_tasks import ListUnfinishedTasksUseCase
-from lifesync.habits.application.use_cases.list_habits_for_standup import ListHabitsForStandupUseCase
+from lifesync.habits.application.use_cases.list_habits_for_standup import (
+    ListHabitsForStandupUseCase,
+)
 from lifesync.quotes.application.use_cases.get_motivational_quote import GetMotivationalQuoteUseCase
 from lifesync.shared_kernel.domain.clock import Clock
-import logging
+from lifesync.shared_kernel.domain.value_objects import ChatId
+from lifesync.tasks.application.use_cases.list_unfinished_tasks import ListUnfinishedTasksUseCase
 
 logger = logging.getLogger(__name__)
 

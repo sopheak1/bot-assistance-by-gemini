@@ -1,7 +1,9 @@
-from typing import Protocol
 from datetime import date
+from typing import Protocol
+
 from lifesync.shared_kernel.domain.value_objects import ChatId
 from lifesync.tasks.domain.entities import Task
+
 
 class TaskRepository(Protocol):
     async def get_by_id(self, task_id: int) -> Task | None: ...

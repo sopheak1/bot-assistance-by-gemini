@@ -1,8 +1,10 @@
 from aiogram import Bot, Dispatcher
+
 from lifesync.config.settings import settings
-from lifesync.telegram.middleware.db_middleware import DatabaseMiddleware
+from lifesync.telegram.handlers import chat_setup, habits, projects, tasks
 from lifesync.telegram.middleware.chat_context_middleware import ChatContextMiddleware
-from lifesync.telegram.handlers import chat_setup, projects, tasks, habits
+from lifesync.telegram.middleware.db_middleware import DatabaseMiddleware
+
 
 def create_bot() -> Bot:
     return Bot(token=settings.BOT_TOKEN)

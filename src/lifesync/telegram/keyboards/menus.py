@@ -1,4 +1,5 @@
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+
 
 def get_main_menu(domain_context: str) -> InlineKeyboardMarkup:
     if domain_context == "WORK":

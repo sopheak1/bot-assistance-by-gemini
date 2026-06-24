@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from datetime import datetime
+
 from lifesync.shared_kernel.domain.value_objects import TelegramUserId
+
 
 @dataclass(frozen=True)
 class Timezone:

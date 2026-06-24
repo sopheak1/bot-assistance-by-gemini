@@ -1,6 +1,8 @@
 from typing import Protocol
+
 from lifesync.shared_kernel.domain.value_objects import TelegramUserId
 from lifesync.users.domain.entities import UserSettings
+
 
 class UserSettingsRepository(Protocol):
     async def get_by_telegram_id(self, telegram_id: TelegramUserId) -> UserSettings | None: ...

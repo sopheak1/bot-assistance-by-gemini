@@ -1,6 +1,8 @@
 from typing import Protocol
-from lifesync.shared_kernel.domain.value_objects import ChatId
+
 from lifesync.projects.domain.entities import Project
+from lifesync.shared_kernel.domain.value_objects import ChatId
+
 
 class ProjectRepository(Protocol):
     async def get_by_id(self, project_id: int) -> Project | None: ...

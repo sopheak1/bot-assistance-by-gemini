@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from datetime import datetime
-from lifesync.shared_kernel.domain.value_objects import ChatId
+
 from lifesync.projects.domain.value_objects import ProjectName
+from lifesync.shared_kernel.domain.value_objects import ChatId
+
 
 @dataclass
 class Project:

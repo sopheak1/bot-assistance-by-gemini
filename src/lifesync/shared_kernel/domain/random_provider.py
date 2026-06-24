@@ -1,4 +1,5 @@
-from typing import Protocol, TypeVar, Sequence
+from collections.abc import Sequence
+from typing import Protocol, TypeVar
 
 T = TypeVar('T')
 

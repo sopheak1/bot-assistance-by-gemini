@@ -1,14 +1,18 @@
-from aiogram import Router, F, types
+from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from lifesync.projects.application.use_cases.create_project import CreateProjectUseCase, CreateProjectRequest
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from lifesync.persistence.uow import SqlAlchemyUnitOfWork
+from lifesync.projects.application.use_cases.create_project import (
+    CreateProjectRequest,
+    CreateProjectUseCase,
+)
 from lifesync.projects.application.use_cases.list_projects import ListProjectsUseCase
 from lifesync.projects.infrastructure.sqlite_project_repository import SqliteProjectRepository
-from lifesync.persistence.uow import SqlAlchemyUnitOfWork
 from lifesync.shared_kernel.domain.clock import SystemClock
-from sqlalchemy.ext.asyncio import AsyncSession
 from lifesync.telegram.keyboards.menus import get_main_menu
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 router = Router(name="projects")
 

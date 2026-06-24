@@ -1,6 +1,8 @@
 from dataclasses import dataclass
+
 from lifesync.projects.domain.repository import ProjectRepository
 from lifesync.shared_kernel.domain.value_objects import ChatId
+
 
 @dataclass
 class ProjectDTO:

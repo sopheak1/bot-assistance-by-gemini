@@ -1,7 +1,10 @@
 from datetime import datetime
-from sqlalchemy import String, func
+
+from sqlalchemy import func
 from sqlalchemy.orm import Mapped, mapped_column
+
 from lifesync.persistence.models.base import BotBase
+
 
 class ChatBindingModel(BotBase):
     __tablename__ = "chat_bindings"

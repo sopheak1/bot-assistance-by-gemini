@@ -1,7 +1,9 @@
-from typing import Protocol
 from datetime import date
-from lifesync.shared_kernel.domain.value_objects import ChatId
+from typing import Protocol
+
 from lifesync.habits.domain.entities import Habit, HabitCheckIn
+from lifesync.shared_kernel.domain.value_objects import ChatId
+
 
 class HabitRepository(Protocol):
     async def get_by_id(self, habit_id: int) -> Habit | None: ...

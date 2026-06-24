@@ -1,9 +1,11 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from lifesync.users.domain.entities import UserSettings, Timezone, StandupHour, RolloverHour
-from lifesync.users.domain.repository import UserSettingsRepository
+
 from lifesync.persistence.models.bot_models import UserScheduleModel
 from lifesync.shared_kernel.domain.value_objects import TelegramUserId
+from lifesync.users.domain.entities import RolloverHour, StandupHour, Timezone, UserSettings
+from lifesync.users.domain.repository import UserSettingsRepository
+
 
 class SqliteUserSettingsRepository(UserSettingsRepository):
     def __init__(self, session: AsyncSession):

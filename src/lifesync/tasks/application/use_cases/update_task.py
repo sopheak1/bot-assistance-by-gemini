@@ -1,9 +1,11 @@
 from dataclasses import dataclass
 from datetime import date
-from lifesync.tasks.domain.repository import TaskRepository
-from lifesync.tasks.domain.value_objects import TaskStatus, ShortDescription, Deadline
+
 from lifesync.shared_kernel.application.unit_of_work import UnitOfWork
 from lifesync.shared_kernel.domain.clock import Clock
+from lifesync.tasks.domain.repository import TaskRepository
+from lifesync.tasks.domain.value_objects import Deadline, ShortDescription, TaskStatus
+
 
 @dataclass
 class UpdateTaskRequest:

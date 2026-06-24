@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from datetime import datetime
-from lifesync.shared_kernel.domain.value_objects import ChatId, TelegramUserId, DomainContext
+
+from lifesync.shared_kernel.domain.value_objects import ChatId, DomainContext, TelegramUserId
+
 
 @dataclass
 class ChatBinding:

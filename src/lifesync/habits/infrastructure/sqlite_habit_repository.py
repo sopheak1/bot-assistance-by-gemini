@@ -1,11 +1,14 @@
-from sqlalchemy import select, desc
-from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import date
+
+from sqlalchemy import desc, select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from lifesync.habits.domain.entities import Habit, HabitCheckIn
+from lifesync.habits.domain.repository import HabitCheckInRepository, HabitRepository
 from lifesync.habits.domain.value_objects import HabitType, Streak
-from lifesync.habits.domain.repository import HabitRepository, HabitCheckInRepository
-from lifesync.persistence.models.user_models import HabitModel, HabitCheckInModel
+from lifesync.persistence.models.user_models import HabitCheckInModel, HabitModel
 from lifesync.shared_kernel.domain.value_objects import ChatId
+
 
 class SqliteHabitRepository(HabitRepository):
     def __init__(self, session: AsyncSession):

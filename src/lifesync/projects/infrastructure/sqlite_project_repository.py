@@ -1,10 +1,12 @@
-from sqlalchemy import select, delete
+from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from lifesync.projects.domain.entities import Project
-from lifesync.projects.domain.value_objects import ProjectName
-from lifesync.projects.domain.repository import ProjectRepository
+
 from lifesync.persistence.models.user_models import ProjectModel
+from lifesync.projects.domain.entities import Project
+from lifesync.projects.domain.repository import ProjectRepository
+from lifesync.projects.domain.value_objects import ProjectName
 from lifesync.shared_kernel.domain.value_objects import ChatId
+
 
 class SqliteProjectRepository(ProjectRepository):
     def __init__(self, session: AsyncSession):

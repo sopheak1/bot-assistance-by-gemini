@@ -1,7 +1,8 @@
-from typing import Optional
 from dataclasses import dataclass
-from lifesync.users.domain.repository import UserSettingsRepository
+
 from lifesync.shared_kernel.domain.value_objects import TelegramUserId
+from lifesync.users.domain.repository import UserSettingsRepository
+
 
 @dataclass
 class UserSettingsDTO:
@@ -14,7 +15,7 @@ class GetUserSettingsUseCase:
     def __init__(self, repo: UserSettingsRepository):
         self.repo = repo
 
-    async def execute(self, telegram_id: int) -> Optional[UserSettingsDTO]:
+    async def execute(self, telegram_id: int) -> UserSettingsDTO | None:
         settings = await self.repo.get_by_telegram_id(TelegramUserId(telegram_id))
         if not settings:
             return None

@@ -1,5 +1,6 @@
-from lifesync.quotes.domain.repository import QuoteProvider
 from lifesync.quotes.domain.entities import Quote
+from lifesync.quotes.domain.repository import QuoteProvider
+
 
 class GetMotivationalQuoteUseCase:
     def __init__(self, provider: QuoteProvider):

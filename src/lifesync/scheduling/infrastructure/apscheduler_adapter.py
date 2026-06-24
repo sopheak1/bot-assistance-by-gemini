@@ -1,6 +1,7 @@
-from apscheduler.schedulers.asyncio import AsyncIOScheduler # type: ignore
-from apscheduler.triggers.cron import CronTrigger # type: ignore
 import logging
+
+from apscheduler.schedulers.asyncio import AsyncIOScheduler  # type: ignore
+from apscheduler.triggers.cron import CronTrigger  # type: ignore
 
 logger = logging.getLogger(__name__)
 

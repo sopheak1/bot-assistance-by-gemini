@@ -1,12 +1,12 @@
-from enum import Enum
-from typing import NewType
 from dataclasses import dataclass
 from datetime import date
+from enum import StrEnum
+from typing import NewType
 
 ChatId = NewType("ChatId", int)
 TelegramUserId = NewType("TelegramUserId", int)
 
-class DomainContext(str, Enum):
+class DomainContext(StrEnum):
     WORK = "WORK"
     HABIT = "HABIT"
 

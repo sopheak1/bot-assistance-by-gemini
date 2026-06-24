@@ -1,5 +1,7 @@
 from aiogram import Bot
+
 from lifesync.notifications.domain.ports import NotifierPort
+
 
 class TelegramNotifier(NotifierPort):
     def __init__(self, bot: Bot):

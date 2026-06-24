@@ -1,9 +1,11 @@
 from dataclasses import dataclass
-from lifesync.shared_kernel.domain.value_objects import ChatId, TelegramUserId, DomainContext
+
 from lifesync.chat_context.domain.entities import ChatBinding
 from lifesync.chat_context.domain.repository import ChatBindingRepository
 from lifesync.shared_kernel.application.unit_of_work import UnitOfWork
 from lifesync.shared_kernel.domain.clock import Clock
+from lifesync.shared_kernel.domain.value_objects import ChatId, DomainContext, TelegramUserId
+
 
 @dataclass
 class BindChatContextRequest:

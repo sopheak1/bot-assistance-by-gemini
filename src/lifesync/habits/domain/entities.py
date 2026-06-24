@@ -1,7 +1,9 @@
 from dataclasses import dataclass
-from datetime import datetime, date
-from lifesync.shared_kernel.domain.value_objects import ChatId
+from datetime import date, datetime
+
 from lifesync.habits.domain.value_objects import HabitType, Streak
+from lifesync.shared_kernel.domain.value_objects import ChatId
+
 
 @dataclass
 class HabitCheckIn:

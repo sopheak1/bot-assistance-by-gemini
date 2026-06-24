@@ -1,4 +1,5 @@
-from typing import Protocol, Any
+from typing import Any, Protocol
+
 
 class UnitOfWork(Protocol):
     async def __aenter__(self) -> "UnitOfWork": ...

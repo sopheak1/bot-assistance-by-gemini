@@ -1,9 +1,11 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql.expression import func
+
+from lifesync.persistence.models.bot_models import QuoteModel
 from lifesync.quotes.domain.entities import Quote
 from lifesync.quotes.domain.repository import QuoteProvider
-from lifesync.persistence.models.bot_models import QuoteModel
+
 
 class SqliteQuoteProvider(QuoteProvider):
     def __init__(self, session: AsyncSession):

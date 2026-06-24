@@ -1,10 +1,12 @@
 from dataclasses import dataclass
-from lifesync.users.domain.entities import UserSettings, Timezone, StandupHour, RolloverHour
-from lifesync.users.domain.repository import UserSettingsRepository
-from lifesync.shared_kernel.domain.value_objects import TelegramUserId
+
+from lifesync.config.settings import settings
 from lifesync.shared_kernel.application.unit_of_work import UnitOfWork
 from lifesync.shared_kernel.domain.clock import Clock
-from lifesync.config.settings import settings
+from lifesync.shared_kernel.domain.value_objects import TelegramUserId
+from lifesync.users.domain.entities import RolloverHour, StandupHour, Timezone, UserSettings
+from lifesync.users.domain.repository import UserSettingsRepository
+
 
 @dataclass
 class RegisterUserRequest:

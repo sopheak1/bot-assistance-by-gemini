@@ -1,9 +1,11 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from lifesync.chat_context.domain.entities import ChatBinding
 from lifesync.chat_context.domain.repository import ChatBindingRepository
 from lifesync.persistence.models.bot_models import ChatBindingModel
-from lifesync.shared_kernel.domain.value_objects import ChatId, TelegramUserId, DomainContext
+from lifesync.shared_kernel.domain.value_objects import ChatId, DomainContext, TelegramUserId
+
 
 class SqliteChatBindingRepository(ChatBindingRepository):
     def __init__(self, session: AsyncSession):

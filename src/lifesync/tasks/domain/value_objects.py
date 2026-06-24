@@ -1,8 +1,9 @@
 from dataclasses import dataclass
-from enum import Enum
 from datetime import date
+from enum import StrEnum
 
-class TaskStatus(str, Enum):
+
+class TaskStatus(StrEnum):
     TODO = "TODO"
     IN_PROGRESS = "IN_PROGRESS"
     DONE = "DONE"

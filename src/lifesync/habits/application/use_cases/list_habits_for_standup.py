@@ -1,7 +1,9 @@
 from dataclasses import dataclass
 from datetime import date
-from lifesync.habits.domain.repository import HabitRepository, HabitCheckInRepository
+
+from lifesync.habits.domain.repository import HabitCheckInRepository, HabitRepository
 from lifesync.shared_kernel.domain.value_objects import ChatId
+
 
 @dataclass
 class HabitStandupItem:

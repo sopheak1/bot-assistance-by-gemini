@@ -1,7 +1,9 @@
-from datetime import date
 import datetime
+from datetime import date
+
 from lifesync.tasks.domain.entities import Task
 from lifesync.tasks.domain.value_objects import Deadline
+
 
 class RolloverService:
     def rollover(self, tasks: list[Task], today: date, defer_ids: list[int], defer_date: date | None = None) -> None:

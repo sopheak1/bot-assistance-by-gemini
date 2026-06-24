@@ -1,14 +1,24 @@
 from aiogram import Router, types
 from aiogram.filters import Command
-from lifesync.chat_context.application.use_cases.bind_chat_context import BindChatContextUseCase, BindChatContextRequest
-from lifesync.chat_context.infrastructure.sqlite_chat_binding_repository import SqliteChatBindingRepository
-from aiogram.filters import Command
-from lifesync.users.application.use_cases.register_user import RegisterUserUseCase, RegisterUserRequest
-from lifesync.users.infrastructure.sqlite_user_settings_repository import SqliteUserSettingsRepository
-from lifesync.shared_kernel.domain.clock import SystemClock
-from lifesync.persistence.uow import SqlAlchemyUnitOfWork
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from lifesync.chat_context.application.use_cases.bind_chat_context import (
+    BindChatContextRequest,
+    BindChatContextUseCase,
+)
+from lifesync.chat_context.infrastructure.sqlite_chat_binding_repository import (
+    SqliteChatBindingRepository,
+)
+from lifesync.persistence.uow import SqlAlchemyUnitOfWork
+from lifesync.shared_kernel.domain.clock import SystemClock
 from lifesync.telegram.keyboards.menus import get_main_menu
+from lifesync.users.application.use_cases.register_user import (
+    RegisterUserRequest,
+    RegisterUserUseCase,
+)
+from lifesync.users.infrastructure.sqlite_user_settings_repository import (
+    SqliteUserSettingsRepository,
+)
 
 router = Router(name="chat_setup")
 

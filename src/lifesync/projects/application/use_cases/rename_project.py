@@ -1,8 +1,10 @@
 from dataclasses import dataclass
+
 from lifesync.projects.domain.repository import ProjectRepository
 from lifesync.projects.domain.value_objects import ProjectName
 from lifesync.shared_kernel.application.unit_of_work import UnitOfWork
 from lifesync.shared_kernel.domain.clock import Clock
+
 
 @dataclass
 class RenameProjectRequest:

@@ -1,11 +1,14 @@
-from sqlalchemy import select, delete, cast, Date
-from sqlalchemy.ext.asyncio import AsyncSession
 from datetime import date
-from lifesync.tasks.domain.entities import Task
-from lifesync.tasks.domain.value_objects import TaskStatus, ShortDescription, Deadline
-from lifesync.tasks.domain.repository import TaskRepository
+
+from sqlalchemy import Date, cast, delete, select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from lifesync.persistence.models.user_models import TaskModel
 from lifesync.shared_kernel.domain.value_objects import ChatId
+from lifesync.tasks.domain.entities import Task
+from lifesync.tasks.domain.repository import TaskRepository
+from lifesync.tasks.domain.value_objects import Deadline, ShortDescription, TaskStatus
+
 
 class SqliteTaskRepository(TaskRepository):
     def __init__(self, session: AsyncSession):

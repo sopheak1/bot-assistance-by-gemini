@@ -1,7 +1,9 @@
 from dataclasses import dataclass
-from datetime import datetime, date
+from datetime import date, datetime
+
 from lifesync.shared_kernel.domain.value_objects import ChatId
-from lifesync.tasks.domain.value_objects import TaskStatus, ShortDescription, Deadline
+from lifesync.tasks.domain.value_objects import Deadline, ShortDescription, TaskStatus
+
 
 @dataclass
 class Task:

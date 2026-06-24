@@ -1,11 +1,10 @@
 import asyncio
 from logging.config import fileConfig
 
+from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
-
-from alembic import context
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -16,15 +15,17 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-import sys
 import os
+import sys
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
 
 from lifesync.persistence.models.base import BotBase
-import lifesync.persistence.models.bot_models
+
 target_metadata = BotBase.metadata
 
 from lifesync.config.settings import settings
+
 config.set_main_option("sqlalchemy.url", f"sqlite+aiosqlite:///{settings.BOT_DB_PATH}")
 
 # other values from the config, defined by the needs of env.py,

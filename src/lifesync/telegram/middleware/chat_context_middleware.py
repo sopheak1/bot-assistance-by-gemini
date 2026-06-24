@@ -1,16 +1,23 @@
+from collections.abc import Awaitable, Callable
+from typing import Any
+
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
-from typing import Callable, Dict, Any, Awaitable
-from lifesync.chat_context.infrastructure.sqlite_chat_binding_repository import SqliteChatBindingRepository
-from lifesync.chat_context.application.use_cases.resolve_chat_context import ResolveChatContextUseCase
-from lifesync.shared_kernel.domain.value_objects import ChatId
+
+from lifesync.chat_context.application.use_cases.resolve_chat_context import (
+    ResolveChatContextUseCase,
+)
+from lifesync.chat_context.infrastructure.sqlite_chat_binding_repository import (
+    SqliteChatBindingRepository,
+)
+
 
 class ChatContextMiddleware(BaseMiddleware):
     async def __call__(
         self,
-        handler: Callable[[TelegramObject, Dict[str, Any]], Awaitable[Any]],
+        handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
         event: TelegramObject,
-        data: Dict[str, Any]
+        data: dict[str, Any]
     ) -> Any:
         chat = data.get("event_chat")
         if not chat:

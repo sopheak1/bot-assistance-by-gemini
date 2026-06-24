@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from datetime import date
+
 from lifesync.tasks.domain.repository import TaskRepository
+
 
 @dataclass
 class TaskDTO:

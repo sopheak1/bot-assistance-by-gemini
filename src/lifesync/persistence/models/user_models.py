@@ -1,7 +1,10 @@
-from datetime import datetime, date
-from sqlalchemy import ForeignKey, func, UniqueConstraint
+from datetime import date, datetime
+
+from sqlalchemy import ForeignKey, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column
+
 from lifesync.persistence.models.base import UserBase
+
 
 class ProjectModel(UserBase):
     __tablename__ = "projects"

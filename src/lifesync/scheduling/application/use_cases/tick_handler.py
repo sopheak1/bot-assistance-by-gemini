@@ -1,22 +1,33 @@
 import logging
-from datetime import datetime
 import zoneinfo
-from lifesync.notifications.domain.ports import NotifierPort # type: ignore
-from lifesync.users.domain.repository import UserSettingsRepository
-from lifesync.users.domain.entities import UserSettings
-from lifesync.shared_kernel.domain.clock import Clock
-from lifesync.chat_context.infrastructure.sqlite_chat_binding_repository import SqliteChatBindingRepository
+from datetime import datetime
+
+from lifesync.chat_context.infrastructure.sqlite_chat_binding_repository import (
+    SqliteChatBindingRepository,
+)
+from lifesync.habits.application.use_cases.list_habits_for_standup import (
+    ListHabitsForStandupUseCase,
+)
+from lifesync.habits.infrastructure.sqlite_habit_repository import (
+    SqliteHabitCheckInRepository,
+    SqliteHabitRepository,
+)
+from lifesync.notifications.domain.ports import NotifierPort  # type: ignore
 from lifesync.persistence.db import BotSessionLocal, get_user_session_maker
-from lifesync.standup.application.use_cases.generate_standup import GenerateStandupUseCase
-from lifesync.tasks.application.use_cases.rollover_unfinished_tasks import RolloverUnfinishedTasksUseCase, RolloverTasksRequest
-from lifesync.tasks.infrastructure.sqlite_task_repository import SqliteTaskRepository
-from lifesync.tasks.application.use_cases.list_unfinished_tasks import ListUnfinishedTasksUseCase
-from lifesync.habits.application.use_cases.list_habits_for_standup import ListHabitsForStandupUseCase
-from lifesync.habits.infrastructure.sqlite_habit_repository import SqliteHabitRepository, SqliteHabitCheckInRepository
+from lifesync.persistence.uow import SqlAlchemyUnitOfWork
 from lifesync.quotes.application.use_cases.get_motivational_quote import GetMotivationalQuoteUseCase
 from lifesync.quotes.infrastructure.sqlite_quote_provider import SqliteQuoteProvider
+from lifesync.shared_kernel.domain.clock import Clock
+from lifesync.standup.application.use_cases.generate_standup import GenerateStandupUseCase
+from lifesync.tasks.application.use_cases.list_unfinished_tasks import ListUnfinishedTasksUseCase
+from lifesync.tasks.application.use_cases.rollover_unfinished_tasks import (
+    RolloverTasksRequest,
+    RolloverUnfinishedTasksUseCase,
+)
 from lifesync.tasks.domain.services import RolloverService
-from lifesync.persistence.uow import SqlAlchemyUnitOfWork
+from lifesync.tasks.infrastructure.sqlite_task_repository import SqliteTaskRepository
+from lifesync.users.domain.entities import UserSettings
+from lifesync.users.domain.repository import UserSettingsRepository
 
 logger = logging.getLogger(__name__)
 

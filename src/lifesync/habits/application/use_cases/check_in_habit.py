@@ -1,11 +1,13 @@
 from dataclasses import dataclass
 from datetime import date
-from lifesync.habits.domain.repository import HabitRepository, HabitCheckInRepository
-from lifesync.habits.domain.services import StreakCalculationService
+
 from lifesync.habits.domain.entities import HabitCheckIn
+from lifesync.habits.domain.repository import HabitCheckInRepository, HabitRepository
+from lifesync.habits.domain.services import StreakCalculationService
 from lifesync.habits.domain.value_objects import HabitType
 from lifesync.shared_kernel.application.unit_of_work import UnitOfWork
 from lifesync.shared_kernel.domain.clock import Clock
+
 
 @dataclass
 class CheckInHabitRequest:

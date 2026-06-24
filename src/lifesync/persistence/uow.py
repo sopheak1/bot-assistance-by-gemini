@@ -1,6 +1,9 @@
-from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Any
+
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from lifesync.shared_kernel.application.unit_of_work import UnitOfWork
+
 
 class SqlAlchemyUnitOfWork(UnitOfWork):
     def __init__(self, session: AsyncSession):

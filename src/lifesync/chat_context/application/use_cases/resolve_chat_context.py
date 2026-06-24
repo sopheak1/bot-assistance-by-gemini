@@ -1,7 +1,8 @@
-from typing import Optional
 from dataclasses import dataclass
-from lifesync.shared_kernel.domain.value_objects import ChatId
+
 from lifesync.chat_context.domain.repository import ChatBindingRepository
+from lifesync.shared_kernel.domain.value_objects import ChatId
+
 
 @dataclass
 class ChatContextDTO:
@@ -12,7 +13,7 @@ class ResolveChatContextUseCase:
     def __init__(self, repo: ChatBindingRepository):
         self.repo = repo
 
-    async def execute(self, chat_id: int) -> Optional[ChatContextDTO]:
+    async def execute(self, chat_id: int) -> ChatContextDTO | None:
         binding = await self.repo.get_by_chat_id(ChatId(chat_id))
         if not binding:
             return None

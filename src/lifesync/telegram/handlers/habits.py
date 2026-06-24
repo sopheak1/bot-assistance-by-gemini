@@ -1,16 +1,28 @@
-from aiogram import Router, F, types
+from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
-from lifesync.habits.application.use_cases.create_habit import CreateHabitUseCase, CreateHabitRequest
-from lifesync.habits.application.use_cases.list_habits_for_standup import ListHabitsForStandupUseCase
-from lifesync.habits.application.use_cases.check_in_habit import CheckInHabitUseCase, CheckInHabitRequest
-from lifesync.habits.infrastructure.sqlite_habit_repository import SqliteHabitRepository, SqliteHabitCheckInRepository
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from lifesync.habits.application.use_cases.check_in_habit import (
+    CheckInHabitRequest,
+    CheckInHabitUseCase,
+)
+from lifesync.habits.application.use_cases.create_habit import (
+    CreateHabitRequest,
+    CreateHabitUseCase,
+)
+from lifesync.habits.application.use_cases.list_habits_for_standup import (
+    ListHabitsForStandupUseCase,
+)
 from lifesync.habits.domain.services import StreakCalculationService
+from lifesync.habits.infrastructure.sqlite_habit_repository import (
+    SqliteHabitCheckInRepository,
+    SqliteHabitRepository,
+)
 from lifesync.persistence.uow import SqlAlchemyUnitOfWork
 from lifesync.shared_kernel.domain.clock import SystemClock
-from sqlalchemy.ext.asyncio import AsyncSession
 from lifesync.telegram.keyboards.menus import get_main_menu
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 router = Router(name="habits")
 
@@ -94,7 +106,7 @@ async def process_habit_checkin(callback: types.CallbackQuery, user_session: Asy
     
     try:
         await use_case.execute(req)
-        await callback.message.answer(f"✅ Checked in!", reply_markup=get_main_menu(domain_context))
+        await callback.message.answer("✅ Checked in!", reply_markup=get_main_menu(domain_context))
     except Exception as e:
         await callback.message.answer(f"❌ Error: {e}")
         

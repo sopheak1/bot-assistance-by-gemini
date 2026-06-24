@@ -1,14 +1,18 @@
 import asyncio
 import logging
-from apscheduler.schedulers.asyncio import AsyncIOScheduler # type: ignore
+
 from aiogram import Bot
-from lifesync.telegram.bot import create_bot, create_dispatcher
-from lifesync.scheduling.infrastructure.apscheduler_adapter import APSchedulerAdapter
-from lifesync.scheduling.application.use_cases.tick_handler import HourlyTickHandler
+from apscheduler.schedulers.asyncio import AsyncIOScheduler  # type: ignore
+
 from lifesync.notifications.infrastructure.telegram_notifier import TelegramNotifier
-from lifesync.users.infrastructure.sqlite_user_settings_repository import SqliteUserSettingsRepository
 from lifesync.persistence.db import BotSessionLocal, init_bot_db
+from lifesync.scheduling.application.use_cases.tick_handler import HourlyTickHandler
+from lifesync.scheduling.infrastructure.apscheduler_adapter import APSchedulerAdapter
 from lifesync.shared_kernel.domain.clock import SystemClock
+from lifesync.telegram.bot import create_bot, create_dispatcher
+from lifesync.users.infrastructure.sqlite_user_settings_repository import (
+    SqliteUserSettingsRepository,
+)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

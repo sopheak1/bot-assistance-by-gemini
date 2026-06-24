@@ -1,7 +1,9 @@
 from dataclasses import dataclass
-from lifesync.tasks.domain.repository import TaskRepository
-from lifesync.shared_kernel.domain.value_objects import ChatId
+
 from lifesync.shared_kernel.domain.clock import Clock
+from lifesync.shared_kernel.domain.value_objects import ChatId
+from lifesync.tasks.domain.repository import TaskRepository
+
 
 @dataclass
 class UnfinishedTaskDTO:

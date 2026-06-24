@@ -1,6 +1,8 @@
 from dataclasses import dataclass
-from lifesync.tasks.domain.repository import TaskRepository
+
 from lifesync.shared_kernel.application.unit_of_work import UnitOfWork
+from lifesync.tasks.domain.repository import TaskRepository
+
 
 @dataclass
 class DeleteTaskRequest:

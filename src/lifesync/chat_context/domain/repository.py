@@ -1,6 +1,8 @@
 from typing import Protocol
-from lifesync.shared_kernel.domain.value_objects import ChatId, TelegramUserId
+
 from lifesync.chat_context.domain.entities import ChatBinding
+from lifesync.shared_kernel.domain.value_objects import ChatId, TelegramUserId
+
 
 class ChatBindingRepository(Protocol):
     async def get_by_chat_id(self, chat_id: ChatId) -> ChatBinding | None: ...
