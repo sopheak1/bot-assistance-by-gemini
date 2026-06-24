@@ -3,8 +3,9 @@ from typing import AsyncGenerator
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 from lifesync.config.settings import settings
 import os
-from lifesync.persistence.models.bot_models import Base as BotBase
-from lifesync.persistence.models.user_models import Base as UserBase
+from lifesync.persistence.models.base import BotBase, UserBase
+import lifesync.persistence.models.bot_models  # noqa
+import lifesync.persistence.models.user_models  # noqa
 
 # Engine for bot.db
 bot_engine = create_async_engine(f"sqlite+aiosqlite:///{settings.BOT_DB_PATH}", echo=(settings.ENVIRONMENT == "local"))
