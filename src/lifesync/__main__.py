@@ -7,7 +7,7 @@ from lifesync.scheduling.infrastructure.apscheduler_adapter import APSchedulerAd
 from lifesync.scheduling.application.use_cases.tick_handler import HourlyTickHandler
 from lifesync.notifications.infrastructure.telegram_notifier import TelegramNotifier
 from lifesync.users.infrastructure.sqlite_user_settings_repository import SqliteUserSettingsRepository
-from lifesync.persistence.db import BotSessionLocal
+from lifesync.persistence.db import BotSessionLocal, init_bot_db
 from lifesync.shared_kernel.domain.clock import SystemClock
 
 logging.basicConfig(level=logging.INFO)
@@ -34,6 +34,9 @@ def start_scheduler(bot: Bot) -> APSchedulerAdapter:
 async def main():
     bot = create_bot()
     dp = create_dispatcher()
+    
+    logger.info("Initializing database...")
+    await init_bot_db()
     
     logger.info("Starting scheduler...")
     scheduler = start_scheduler(bot)

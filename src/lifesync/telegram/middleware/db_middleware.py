@@ -1,7 +1,7 @@
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject
 from typing import Callable, Dict, Any, Awaitable
-from lifesync.persistence.db import BotSessionLocal, _get_user_session_maker
+from lifesync.persistence.db import BotSessionLocal, get_user_session_maker
 
 class DatabaseMiddleware(BaseMiddleware):
     async def __call__(
@@ -16,7 +16,7 @@ class DatabaseMiddleware(BaseMiddleware):
             data["bot_session"] = bot_session
             
             if user_id:
-                user_session_maker = _get_user_session_maker(user_id)
+                user_session_maker = await get_user_session_maker(user_id)
                 async with user_session_maker() as user_session:
                     data["user_session"] = user_session
                     return await handler(event, data)

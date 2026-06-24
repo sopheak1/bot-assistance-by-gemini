@@ -6,7 +6,7 @@ from lifesync.users.domain.repository import UserSettingsRepository
 from lifesync.users.domain.entities import UserSettings
 from lifesync.shared_kernel.domain.clock import Clock
 from lifesync.chat_context.infrastructure.sqlite_chat_binding_repository import SqliteChatBindingRepository
-from lifesync.persistence.db import BotSessionLocal, _get_user_session_maker
+from lifesync.persistence.db import BotSessionLocal, get_user_session_maker
 from lifesync.standup.application.use_cases.generate_standup import GenerateStandupUseCase
 from lifesync.tasks.application.use_cases.rollover_unfinished_tasks import RolloverUnfinishedTasksUseCase, RolloverTasksRequest
 from lifesync.tasks.infrastructure.sqlite_task_repository import SqliteTaskRepository
@@ -52,7 +52,7 @@ class HourlyTickHandler:
             chat_repo = SqliteChatBindingRepository(bot_session)
             bindings = await chat_repo.list_by_owner(user.telegram_id)
             
-            user_session_maker = _get_user_session_maker(user.telegram_id)
+            user_session_maker = await get_user_session_maker(user.telegram_id)
             
             for binding in bindings:
                 async with user_session_maker() as user_session:
@@ -84,7 +84,7 @@ class HourlyTickHandler:
             chat_repo = SqliteChatBindingRepository(bot_session)
             bindings = await chat_repo.list_by_owner(user.telegram_id)
             
-            user_session_maker = _get_user_session_maker(user.telegram_id)
+            user_session_maker = await get_user_session_maker(user.telegram_id)
             
             for binding in bindings:
                 if binding.domain_context.value == "WORK":
