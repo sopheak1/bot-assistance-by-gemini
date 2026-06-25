@@ -1,4 +1,4 @@
-from aiogram import Router, types
+from aiogram import F, Router, types
 from aiogram.filters import Command
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -83,3 +83,10 @@ async def _init_domain(message: types.Message, bot_session: AsyncSession, domain
         "Use the menu below to get started:",
         reply_markup=get_main_menu(domain)
     )
+
+@router.message(F.text)
+async def fallback_text_handler(message: types.Message, domain_context: str | None = None):
+    if domain_context:
+        await message.answer("I'm not sure what you mean. Please use the menu buttons to interact!", reply_markup=get_main_menu(domain_context))
+    else:
+        await message.answer("Please set up this chat first using /init_work or /init_habit.")
