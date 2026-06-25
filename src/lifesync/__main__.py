@@ -47,7 +47,7 @@ async def main():
     
     logger.info("Starting bot...")
     try:
-        await dp.start_polling(bot)
+        await dp.start_polling(bot, polling_timeout=10)
     finally:
         scheduler.scheduler.shutdown()
 

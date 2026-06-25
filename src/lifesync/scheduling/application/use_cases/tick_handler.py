@@ -37,24 +37,31 @@ class HourlyTickHandler:
         self.clock = clock
         self.notifier = notifier
 
+    async def _process_user(self, user: UserSettings, now_utc: datetime) -> None:
+        try:
+            local_time = now_utc.astimezone(zoneinfo.ZoneInfo(user.timezone.value))
+            current_hour = local_time.hour
+            
+            if current_hour == user.standup_hour.value:
+                await self._trigger_standup(user, local_time)
+                
+            if current_hour == user.rollover_hour.value:
+                await self._trigger_rollover(user, local_time)
+        except Exception as e:
+            logger.error(f"Error processing tick for user {user.telegram_id}: {e}")
+
     async def handle_tick(self) -> None:
         now_utc = self.clock.now()
         logger.info(f"Executing hourly tick at UTC: {now_utc}")
         
         users = await self.user_repo.list_all()
         
-        for user in users:
-            try:
-                local_time = now_utc.astimezone(zoneinfo.ZoneInfo(user.timezone.value))
-                current_hour = local_time.hour
-                
-                if current_hour == user.standup_hour.value:
-                    await self._trigger_standup(user, local_time)
-                    
-                if current_hour == user.rollover_hour.value:
-                    await self._trigger_rollover(user, local_time)
-            except Exception as e:
-                logger.error(f"Error processing tick for user {user.telegram_id}: {e}")
+        import asyncio
+        batch_size = 20
+        for i in range(0, len(users), batch_size):
+            batch = users[i:i + batch_size]
+            tasks = [self._process_user(user, now_utc) for user in batch]
+            await asyncio.gather(*tasks)
 
     async def _trigger_standup(self, user: UserSettings, local_time: datetime) -> None:
         logger.info(f"Triggering standup for user {user.telegram_id}")

@@ -1,8 +1,8 @@
 from aiogram import Bot, Dispatcher
-from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.client.session.aiohttp import AiohttpSession
 
 from lifesync.config.settings import settings
+from lifesync.telegram.fsm.sqlite_storage import SqliteFSMStorage
 from lifesync.telegram.handlers import chat_setup, habits, projects, tasks
 from lifesync.telegram.middleware.chat_context_middleware import ChatContextMiddleware
 from lifesync.telegram.middleware.db_middleware import DatabaseMiddleware
@@ -15,7 +15,8 @@ def create_bot() -> Bot:
     return Bot(token=settings.BOT_TOKEN, session=session)
 
 def create_dispatcher() -> Dispatcher:
-    dp = Dispatcher()
+    fsm_storage = SqliteFSMStorage(db_path=settings.BOT_DB_PATH)
+    dp = Dispatcher(storage=fsm_storage)
     
     # Register global middlewares
     dp.update.outer_middleware(DatabaseMiddleware())
