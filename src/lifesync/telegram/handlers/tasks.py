@@ -80,7 +80,7 @@ async def process_task_description(message: types.Message, state: FSMContext, us
     
     try:
         task_id = await use_case.execute(req)
-        await message.answer(f"✅ Task created with ID {task_id}!", reply_markup=get_main_menu(domain_context))
+        await message.answer("✅ Task successfully added!", reply_markup=get_main_menu(domain_context))
     except Exception as e:
         await message.answer(f"❌ Error: {e}")
         

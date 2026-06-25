@@ -27,13 +27,14 @@ async def cmd_start(message: types.Message, domain_context: str | None = None):
     if not domain_context:
         await message.answer(
             "Welcome to Life-Sync Assistant! 🚀\n\n"
-            "To get started, you need to bind this chat to a specific domain.\n"
-            "Use /init_work for task and project management, or /init_habit for habit tracking."
+            "To get started, you need to set up this chat as a specific workspace.\n"
+            "Use /init_work for Task and Project Management, or /init_habit for Habit Tracking."
         )
     else:
+        domain_name = domain_context.lower()
         await message.answer(
-            f"Welcome back! This chat is currently bound to the {domain_context} domain.\n\n"
-            "Use the menu to interact with your data.",
+            f"Welcome back! This chat is currently your dedicated {domain_name.capitalize()} Workspace.\n\n"
+            "Use the menu below to interact with your data.",
             reply_markup=get_main_menu(domain_context)
         )
 
@@ -49,9 +50,9 @@ async def cmd_init_habit(message: types.Message, bot_session: AsyncSession):
 async def cmd_help(message: types.Message):
     await message.answer(
         "📚 **Life-Sync Assistant Commands**\n\n"
-        "/start - Show the main menu (requires a bound chat)\n"
-        "/init_work - Bind this chat for Work/Project Management\n"
-        "/init_habit - Bind this chat for Habit Tracking\n"
+        "/start - Show the main menu (requires a workspace)\n"
+        "/init_work - Set up this chat as your Work Workspace\n"
+        "/init_habit - Set up this chat as your Habit Workspace\n"
         "/help - Show this help message\n\n"
         "Most interactions are done via the inline buttons by sending `/start` after initializing.",
         parse_mode="Markdown"
@@ -78,7 +79,7 @@ async def _init_domain(message: types.Message, bot_session: AsyncSession, domain
     await register_use_case.execute(RegisterUserRequest(telegram_id=message.from_user.id))
     
     await message.answer(
-        f"✅ This chat is now bound to the {domain} domain.\nYour default settings (UTC+7 timezone, 9 AM standup, 2 AM rollover) have been applied.\n\n"
+        f"✅ This chat is now your dedicated {domain} Workspace.\nYour default settings (UTC+7 Timezone, 9 AM Morning Plan, 2 AM Daily Reset) have been applied.\n\n"
         "Use the menu below to get started:",
         reply_markup=get_main_menu(domain)
     )

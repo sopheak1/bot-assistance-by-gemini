@@ -61,7 +61,7 @@ async def process_habit_name(message: types.Message, state: FSMContext, user_ses
     
     try:
         habit_id = await use_case.execute(req)
-        await message.answer(f"✅ Habit created with ID {habit_id}!", reply_markup=get_main_menu(domain_context))
+        await message.answer("✅ Habit successfully added!", reply_markup=get_main_menu(domain_context))
     except Exception as e:
         await message.answer(f"❌ Error: {e}")
         

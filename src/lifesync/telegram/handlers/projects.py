@@ -68,7 +68,7 @@ async def process_project_name(message: types.Message, state: FSMContext, user_s
     
     try:
         project_id = await use_case.execute(req)
-        await message.answer(f"✅ Project created with ID {project_id}!", reply_markup=get_main_menu(domain_context))
+        await message.answer("✅ Project successfully created!", reply_markup=get_main_menu(domain_context))
     except Exception as e:
         await message.answer(f"❌ Error: {e}")
         
