@@ -27,7 +27,10 @@ class ChatContextMiddleware(BaseMiddleware):
         repo = SqliteChatBindingRepository(bot_session)
         use_case = ResolveChatContextUseCase(repo)
         
-        domain_context = await use_case.execute(chat.id)
-        data["domain_context"] = domain_context
+        chat_context = await use_case.execute(chat.id)
+        if chat_context:
+            data["domain_context"] = chat_context.domain_context
+        else:
+            data["domain_context"] = None
         
         return await handler(event, data)
