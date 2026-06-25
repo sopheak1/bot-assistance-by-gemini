@@ -6,9 +6,9 @@ from lifesync.tasks.domain.services import RolloverService
 from lifesync.tasks.domain.value_objects import Deadline, ShortDescription, TaskStatus
 
 
-def test_task_status_transitions():
+def test_task_status_transitions() -> None:
     now = datetime.datetime.now()
-    task = Task(
+    task: Task = Task(
         id=1,
         description=ShortDescription("Test task"),
         status=TaskStatus.TODO,
@@ -25,7 +25,7 @@ def test_task_status_transitions():
     assert task.completed_at is None
 
     task.mark_done(now)
-    assert task.status == TaskStatus.DONE
+    assert task.status == TaskStatus.DONE  # type: ignore[comparison-overlap]
     assert task.completed_at == now.date()
 
     task.mark_todo(now)
@@ -33,7 +33,7 @@ def test_task_status_transitions():
     assert task.completed_at is None
 
 
-def test_rollover_service():
+def test_rollover_service() -> None:
     today = datetime.date(2026, 1, 2)
     t1 = Task(
         id=1,

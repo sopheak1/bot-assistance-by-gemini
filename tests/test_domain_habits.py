@@ -6,7 +6,7 @@ from lifesync.habits.domain.value_objects import HabitType, Streak
 from lifesync.shared_kernel.domain.value_objects import ChatId
 
 
-def test_streak_calculation_increment():
+def test_streak_calculation_increment() -> None:
     habit = Habit(
         id=1,
         name="Read",
@@ -33,7 +33,7 @@ def test_streak_calculation_increment():
     assert new_streak.longest == 10
 
 
-def test_streak_calculation_reset():
+def test_streak_calculation_reset() -> None:
     habit = Habit(
         id=1,
         name="Read",
@@ -60,7 +60,7 @@ def test_streak_calculation_reset():
     assert new_streak.longest == 10
 
 
-def test_streak_calculation_same_day():
+def test_streak_calculation_same_day() -> None:
     habit = Habit(
         id=1,
         name="Read",
@@ -87,7 +87,7 @@ def test_streak_calculation_same_day():
     assert new_streak.longest == 10
 
 
-def test_streak_longest_update():
+def test_streak_longest_update() -> None:
     habit = Habit(
         id=1,
         name="Read",
