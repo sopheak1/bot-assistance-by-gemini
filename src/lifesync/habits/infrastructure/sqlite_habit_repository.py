@@ -37,7 +37,7 @@ class SqliteHabitRepository(HabitRepository):
                 numeric_unit=habit.numeric_unit,
                 current_streak=habit.streak.current,
                 longest_streak=habit.streak.longest,
-                created_at=habit.created_at
+                created_at=habit.created_at,
             )
             self.session.add(model)
             await self.session.flush()
@@ -64,17 +64,20 @@ class SqliteHabitRepository(HabitRepository):
             numeric_unit=model.numeric_unit,
             streak=Streak(model.current_streak, model.longest_streak),
             chat_id=ChatId(model.chat_id),
-            created_at=model.created_at
+            created_at=model.created_at,
         )
+
 
 class SqliteHabitCheckInRepository(HabitCheckInRepository):
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def get_by_habit_and_date(self, habit_id: int, effective_date: date) -> HabitCheckIn | None:
+    async def get_by_habit_and_date(
+        self, habit_id: int, effective_date: date
+    ) -> HabitCheckIn | None:
         stmt = select(HabitCheckInModel).where(
             HabitCheckInModel.habit_id == habit_id,
-            HabitCheckInModel.effective_date == effective_date
+            HabitCheckInModel.effective_date == effective_date,
         )
         result = await self.session.execute(stmt)
         model = result.scalar_one_or_none()
@@ -83,20 +86,25 @@ class SqliteHabitCheckInRepository(HabitCheckInRepository):
         return self._map_to_domain(model)
 
     async def get_last_checkin(self, habit_id: int) -> HabitCheckIn | None:
-        stmt = select(HabitCheckInModel).where(
-            HabitCheckInModel.habit_id == habit_id
-        ).order_by(desc(HabitCheckInModel.effective_date)).limit(1)
+        stmt = (
+            select(HabitCheckInModel)
+            .where(HabitCheckInModel.habit_id == habit_id)
+            .order_by(desc(HabitCheckInModel.effective_date))
+            .limit(1)
+        )
         result = await self.session.execute(stmt)
         model = result.scalar_one_or_none()
         if not model:
             return None
         return self._map_to_domain(model)
 
-    async def list_by_habit_in_range(self, habit_id: int, start: date, end: date) -> list[HabitCheckIn]:
+    async def list_by_habit_in_range(
+        self, habit_id: int, start: date, end: date
+    ) -> list[HabitCheckIn]:
         stmt = select(HabitCheckInModel).where(
             HabitCheckInModel.habit_id == habit_id,
             HabitCheckInModel.effective_date >= start,
-            HabitCheckInModel.effective_date <= end
+            HabitCheckInModel.effective_date <= end,
         )
         result = await self.session.execute(stmt)
         return [self._map_to_domain(m) for m in result.scalars().all()]
@@ -108,7 +116,7 @@ class SqliteHabitCheckInRepository(HabitCheckInRepository):
                 effective_date=checkin.effective_date,
                 value_bool=checkin.value_bool,
                 value_numeric=checkin.value_numeric,
-                checked_at=checkin.checked_at
+                checked_at=checkin.checked_at,
             )
             self.session.add(model)
             await self.session.flush()
@@ -131,5 +139,5 @@ class SqliteHabitCheckInRepository(HabitCheckInRepository):
             effective_date=model.effective_date,
             value_bool=model.value_bool,
             value_numeric=model.value_numeric,
-            checked_at=model.checked_at
+            checked_at=model.checked_at,
         )

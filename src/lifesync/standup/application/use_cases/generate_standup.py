@@ -12,10 +12,12 @@ from lifesync.tasks.application.use_cases.list_unfinished_tasks import ListUnfin
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class StandupMessage:
     chat_id: int
     text: str
+
 
 class GenerateStandupUseCase:
     def __init__(
@@ -24,7 +26,7 @@ class GenerateStandupUseCase:
         list_tasks_uc: ListUnfinishedTasksUseCase,
         list_habits_uc: ListHabitsForStandupUseCase,
         quote_uc: GetMotivationalQuoteUseCase,
-        clock: Clock
+        clock: Clock,
     ):
         self.chat_repo = chat_repo
         self.list_tasks_uc = list_tasks_uc
@@ -40,10 +42,10 @@ class GenerateStandupUseCase:
         today = self.clock.now().date()
         quote = await self.quote_uc.execute()
         quote_text = f"\n\n💡 _{quote.text}_\n- {quote.author}"
-        
+
         if binding.domain_context.value == "WORK":
             tasks = await self.list_tasks_uc.execute(chat_id)
-            
+
             text = "🌅 **Good Morning! Here's your Work Standup:**\n\n"
             if not tasks:
                 text += "You have no unfinished tasks. Enjoy your day!"
@@ -52,7 +54,7 @@ class GenerateStandupUseCase:
                     text += f"🔸 {t.description}\n"
             text += quote_text
             return StandupMessage(chat_id=chat_id, text=text)
-            
+
         elif binding.domain_context.value == "HABIT":
             habits = await self.list_habits_uc.execute(chat_id, today)
             text = "🌅 **Good Morning! Here's your Habit Standup:**\n\n"
@@ -63,5 +65,5 @@ class GenerateStandupUseCase:
                     text += f"🔹 {h.name}\n"
             text += quote_text
             return StandupMessage(chat_id=chat_id, text=text)
-            
+
         return None

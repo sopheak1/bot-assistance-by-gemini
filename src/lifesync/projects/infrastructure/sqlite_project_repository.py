@@ -31,7 +31,7 @@ class SqliteProjectRepository(ProjectRepository):
                 chat_id=project.chat_id,
                 name=project.name.value,
                 created_at=project.created_at,
-                updated_at=project.updated_at
+                updated_at=project.updated_at,
             )
             self.session.add(model)
             await self.session.flush()
@@ -55,5 +55,5 @@ class SqliteProjectRepository(ProjectRepository):
             name=ProjectName(model.name),
             chat_id=ChatId(model.chat_id),
             created_at=model.created_at,
-            updated_at=model.updated_at
+            updated_at=model.updated_at,
         )

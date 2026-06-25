@@ -13,6 +13,7 @@ class CreateProjectRequest:
     chat_id: int
     name: str
 
+
 class CreateProjectUseCase:
     def __init__(self, repo: ProjectRepository, uow: UnitOfWork, clock: Clock):
         self.repo = repo
@@ -26,7 +27,7 @@ class CreateProjectUseCase:
             name=ProjectName(request.name),
             chat_id=ChatId(request.chat_id),
             created_at=now,
-            updated_at=now
+            updated_at=now,
         )
         async with self.uow:
             saved = await self.repo.save(project)

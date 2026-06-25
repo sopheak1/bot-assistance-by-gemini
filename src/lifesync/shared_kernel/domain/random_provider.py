@@ -1,7 +1,8 @@
 from collections.abc import Sequence
 from typing import Protocol, TypeVar
 
-T = TypeVar('T')
+T = TypeVar("T")
+
 
 class RandomProvider(Protocol):
     def choice(self, seq: Sequence[T]) -> T:

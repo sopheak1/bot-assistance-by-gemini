@@ -10,6 +10,7 @@ class UnfinishedTaskDTO:
     id: int
     description: str
 
+
 class ListUnfinishedTasksUseCase:
     def __init__(self, repo: TaskRepository, clock: Clock):
         self.repo = repo
@@ -20,8 +21,8 @@ class ListUnfinishedTasksUseCase:
         tasks = await self.repo.list_unfinished_before(ChatId(chat_id), today)
         return [
             UnfinishedTaskDTO(
-                id=t.id, # type: ignore
-                description=t.description.value
+                id=t.id,  # type: ignore
+                description=t.description.value,
             )
             for t in tasks
         ]

@@ -14,6 +14,7 @@ class UpdateTaskRequest:
     status: str | None = None
     deadline: date | None = None
 
+
 class UpdateTaskUseCase:
     def __init__(self, repo: TaskRepository, uow: UnitOfWork, clock: Clock):
         self.repo = repo
@@ -24,16 +25,16 @@ class UpdateTaskUseCase:
         task = await self.repo.get_by_id(request.task_id)
         if not task:
             raise ValueError("Task not found")
-        
+
         now = self.clock.now()
-        
+
         if request.description is not None:
             task.description = ShortDescription(request.description)
             task.updated_at = now
-            
+
         if request.deadline is not None:
             task.reschedule(Deadline(request.deadline), now)
-            
+
         if request.status is not None:
             status = TaskStatus(request.status)
             if status == TaskStatus.DONE:
@@ -42,7 +43,7 @@ class UpdateTaskUseCase:
                 task.mark_in_progress(now)
             else:
                 task.mark_todo(now)
-                
+
         async with self.uow:
             await self.repo.save(task)
             await self.uow.commit()

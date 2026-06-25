@@ -9,6 +9,7 @@ class ChatContextDTO:
     domain_context: str
     owner_telegram_id: int
 
+
 class ResolveChatContextUseCase:
     def __init__(self, repo: ChatBindingRepository):
         self.repo = repo
@@ -18,6 +19,5 @@ class ResolveChatContextUseCase:
         if not binding:
             return None
         return ChatContextDTO(
-            domain_context=binding.domain_context.value,
-            owner_telegram_id=binding.bound_by
+            domain_context=binding.domain_context.value, owner_telegram_id=binding.bound_by
         )

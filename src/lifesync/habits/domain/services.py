@@ -14,14 +14,17 @@ class HabitDateService:
             return (local_time - timedelta(days=1)).date()
         return local_time.date()
 
+
 class StreakCalculationService:
     @staticmethod
-    def compute_streak(habit: Habit, last_checkin: HabitCheckIn | None, effective_date: date) -> Streak:
+    def compute_streak(
+        habit: Habit, last_checkin: HabitCheckIn | None, effective_date: date
+    ) -> Streak:
         if not last_checkin:
             return habit.streak.increment()
-            
+
         diff = (effective_date - last_checkin.effective_date).days
-        
+
         if diff <= 0:
             return habit.streak
         elif diff == 1:

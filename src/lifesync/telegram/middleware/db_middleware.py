@@ -12,13 +12,13 @@ class DatabaseMiddleware(BaseMiddleware):
         self,
         handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
         event: TelegramObject,
-        data: dict[str, Any]
+        data: dict[str, Any],
     ) -> Any:
         user_id = data["event_from_user"].id if "event_from_user" in data else None
-        
+
         async with BotSessionLocal() as bot_session:
             data["bot_session"] = bot_session
-            
+
             if user_id:
                 user_session_maker = await get_user_session_maker(user_id)
                 async with user_session_maker() as user_session:

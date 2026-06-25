@@ -31,7 +31,7 @@ class SqliteTaskRepository(TaskRepository):
         stmt = select(TaskModel).where(
             TaskModel.chat_id == chat_id,
             TaskModel.status != TaskStatus.DONE.value,
-            cast(TaskModel.created_at, Date) < d
+            cast(TaskModel.created_at, Date) < d,
         )
         result = await self.session.execute(stmt)
         return [self._map_to_domain(m) for m in result.scalars().all()]
@@ -46,7 +46,7 @@ class SqliteTaskRepository(TaskRepository):
                 deadline=task.deadline.value,
                 created_at=task.created_at,
                 updated_at=task.updated_at,
-                completed_at=task.completed_at
+                completed_at=task.completed_at,
             )
             self.session.add(model)
             await self.session.flush()
@@ -81,5 +81,5 @@ class SqliteTaskRepository(TaskRepository):
             chat_id=ChatId(model.chat_id),
             created_at=model.created_at,
             updated_at=model.updated_at,
-            completed_at=model.completed_at
+            completed_at=model.completed_at,
         )

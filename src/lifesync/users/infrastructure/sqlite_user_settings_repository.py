@@ -25,7 +25,7 @@ class SqliteUserSettingsRepository(UserSettingsRepository):
             timezone=settings.timezone.value,
             standup_hour=settings.standup_hour.value,
             rollover_hour=settings.rollover_hour.value,
-            created_at=settings.created_at
+            created_at=settings.created_at,
         )
         await self.session.merge(model)
 
@@ -40,5 +40,5 @@ class SqliteUserSettingsRepository(UserSettingsRepository):
             timezone=Timezone(model.timezone),
             standup_hour=StandupHour(model.standup_hour),
             rollover_hour=RolloverHour(model.rollover_hour),
-            created_at=model.created_at
+            created_at=model.created_at,
         )

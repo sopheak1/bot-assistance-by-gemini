@@ -22,6 +22,7 @@ from lifesync.users.infrastructure.sqlite_user_settings_repository import (
 
 router = Router(name="chat_setup")
 
+
 @router.message(Command("start"))
 async def cmd_start(message: types.Message, domain_context: str | None = None) -> None:
     if not domain_context:
@@ -33,18 +34,22 @@ async def cmd_start(message: types.Message, domain_context: str | None = None) -
     else:
         domain_name = domain_context.lower()
         await message.answer(
-            f"Welcome back! This chat is currently your dedicated {domain_name.capitalize()} Workspace.\n\n"
+            f"Welcome back! This chat is currently your dedicated {domain_name.capitalize()} "
+            "Workspace.\n\n"
             "Use the menu below to interact with your data.",
-            reply_markup=get_main_menu(domain_context)
+            reply_markup=get_main_menu(domain_context),
         )
+
 
 @router.message(Command("init_work"))
 async def cmd_init_work(message: types.Message, bot_session: AsyncSession) -> None:
     await _init_domain(message, bot_session, "WORK")
 
+
 @router.message(Command("init_habit"))
 async def cmd_init_habit(message: types.Message, bot_session: AsyncSession) -> None:
     await _init_domain(message, bot_session, "HABIT")
+
 
 @router.message(Command("help"))
 async def cmd_help(message: types.Message) -> None:
@@ -55,40 +60,48 @@ async def cmd_help(message: types.Message) -> None:
         "/init_habit - Set up this chat as your Habit Workspace\n"
         "/help - Show this help message\n\n"
         "Most interactions are done via the inline buttons by sending `/start` after initializing.",
-        parse_mode="Markdown"
+        parse_mode="Markdown",
     )
+
 
 async def _init_domain(message: types.Message, bot_session: AsyncSession, domain: str) -> None:
     if not message.from_user:
         return
-        
+
     chat_repo = SqliteChatBindingRepository(bot_session)
     user_repo = SqliteUserSettingsRepository(bot_session)
     uow = SqlAlchemyUnitOfWork(bot_session)
     clock = SystemClock()
-    
+
     bind_use_case = BindChatContextUseCase(chat_repo, uow, clock)
     register_use_case = RegisterUserUseCase(user_repo, uow, clock)
-    
-    await bind_use_case.execute(BindChatContextRequest(
-        chat_id=message.chat.id,
-        telegram_id=message.from_user.id,
-        domain_context=domain
-    ))
-    
-    await register_use_case.execute(RegisterUserRequest(telegram_id=message.from_user.id))
-    
-    await message.answer(
-        f"✅ This chat is now your dedicated {domain} Workspace.\nYour default settings (UTC+7 Timezone, 9 AM Morning Plan, 2 AM Daily Reset) have been applied.\n\n"
-        "Use the menu below to get started:",
-        reply_markup=get_main_menu(domain)
+
+    await bind_use_case.execute(
+        BindChatContextRequest(
+            chat_id=message.chat.id, telegram_id=message.from_user.id, domain_context=domain
+        )
     )
 
-from aiogram.filters import StateFilter
+    await register_use_case.execute(RegisterUserRequest(telegram_id=message.from_user.id))
+
+    await message.answer(
+        f"✅ This chat is now your dedicated {domain} Workspace.\n"
+        "Your default settings (UTC+7 Timezone, 9 AM Morning Plan, 2 AM Daily Reset) "
+        "have been applied.\n\n"
+        "Use the menu below to get started:",
+        reply_markup=get_main_menu(domain),
+    )
+
+
+from aiogram.filters import StateFilter  # noqa: E402
+
 
 @router.message(F.text, StateFilter(None))
 async def fallback_text_handler(message: types.Message, domain_context: str | None = None) -> None:
     if domain_context:
-        await message.answer("I'm not sure what you mean. Please use the menu buttons to interact!", reply_markup=get_main_menu(domain_context))
+        await message.answer(
+            "I'm not sure what you mean. Please use the menu buttons to interact!",
+            reply_markup=get_main_menu(domain_context),
+        )
     else:
         await message.answer("Please set up this chat first using /init_work or /init_habit.")

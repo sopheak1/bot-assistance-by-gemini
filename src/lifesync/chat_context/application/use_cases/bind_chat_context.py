@@ -13,6 +13,7 @@ class BindChatContextRequest:
     telegram_id: int
     domain_context: str
 
+
 class BindChatContextUseCase:
     def __init__(self, repo: ChatBindingRepository, uow: UnitOfWork, clock: Clock):
         self.repo = repo
@@ -24,7 +25,7 @@ class BindChatContextUseCase:
             chat_id=ChatId(request.chat_id),
             bound_by=TelegramUserId(request.telegram_id),
             domain_context=DomainContext(request.domain_context),
-            bound_at=self.clock.now()
+            bound_at=self.clock.now(),
         )
         async with self.uow:
             await self.repo.save(binding)

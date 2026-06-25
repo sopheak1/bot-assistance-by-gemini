@@ -9,6 +9,7 @@ from lifesync.tasks.domain.repository import TaskRepository
 class DeleteProjectRequest:
     project_id: int
 
+
 class DeleteProjectUseCase:
     def __init__(self, project_repo: ProjectRepository, task_repo: TaskRepository, uow: UnitOfWork):
         self.project_repo = project_repo

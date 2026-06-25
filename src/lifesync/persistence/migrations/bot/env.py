@@ -15,16 +15,23 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-import os
-import sys
+import os  # noqa: E402
+import sys  # noqa: E402
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
+sys.path.insert(
+    0,
+    os.path.dirname(
+        os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        )
+    ),
+)
 
-from lifesync.persistence.models.base import BotBase
+from lifesync.persistence.models.base import BotBase  # noqa: E402
 
 target_metadata = BotBase.metadata
 
-from lifesync.config.settings import settings
+from lifesync.config.settings import settings  # noqa: E402
 
 config.set_main_option("sqlalchemy.url", f"sqlite+aiosqlite:///{settings.BOT_DB_PATH}")
 

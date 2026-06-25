@@ -6,6 +6,7 @@ from apscheduler.triggers.cron import CronTrigger
 
 logger = logging.getLogger(__name__)
 
+
 class APSchedulerAdapter:
     def __init__(self, scheduler: AsyncIOScheduler, tick_handler: Any):
         self.scheduler = scheduler
@@ -16,8 +17,8 @@ class APSchedulerAdapter:
         self.scheduler.add_job(
             self.tick_handler.handle_tick,
             CronTrigger(minute=0, second=0),
-            id='hourly_clock_tick',
-            replace_existing=True
+            id="hourly_clock_tick",
+            replace_existing=True,
         )
         self.scheduler.start()
         logger.info("Scheduler started. Hourly tick scheduled.")

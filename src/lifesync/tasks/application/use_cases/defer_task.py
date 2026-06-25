@@ -11,6 +11,7 @@ class DeferTaskRequest:
     task_id: int
     new_date: date
 
+
 class DeferTaskUseCase:
     def __init__(self, repo: TaskRepository, uow: UnitOfWork, clock: Clock):
         self.repo = repo
@@ -21,7 +22,7 @@ class DeferTaskUseCase:
         task = await self.repo.get_by_id(request.task_id)
         if not task:
             raise ValueError("Task not found")
-        
+
         task.defer_to(request.new_date, self.clock.now())
         async with self.uow:
             await self.repo.save(task)

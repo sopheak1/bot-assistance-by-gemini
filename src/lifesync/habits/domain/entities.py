@@ -14,6 +14,7 @@ class HabitCheckIn:
     value_numeric: int | None
     checked_at: datetime
 
+
 @dataclass
 class Habit:
     id: int | None

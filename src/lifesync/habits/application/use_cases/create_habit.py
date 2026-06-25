@@ -16,6 +16,7 @@ class CreateHabitRequest:
     numeric_target: int | None = None
     numeric_unit: str | None = None
 
+
 class CreateHabitUseCase:
     def __init__(self, repo: HabitRepository, uow: UnitOfWork, clock: Clock):
         self.repo = repo
@@ -32,7 +33,7 @@ class CreateHabitUseCase:
             numeric_unit=request.numeric_unit,
             streak=Streak(0, 0),
             chat_id=ChatId(request.chat_id),
-            created_at=self.clock.now()
+            created_at=self.clock.now(),
         )
         async with self.uow:
             saved = await self.repo.save(habit)

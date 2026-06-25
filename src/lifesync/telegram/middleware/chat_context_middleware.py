@@ -17,20 +17,20 @@ class ChatContextMiddleware(BaseMiddleware):
         self,
         handler: Callable[[TelegramObject, dict[str, Any]], Awaitable[Any]],
         event: TelegramObject,
-        data: dict[str, Any]
+        data: dict[str, Any],
     ) -> Any:
         chat = data.get("event_chat")
         if not chat:
             return await handler(event, data)
-            
+
         bot_session = data["bot_session"]
         repo = SqliteChatBindingRepository(bot_session)
         use_case = ResolveChatContextUseCase(repo)
-        
+
         chat_context = await use_case.execute(chat.id)
         if chat_context:
             data["domain_context"] = chat_context.domain_context
         else:
             data["domain_context"] = None
-        
+
         return await handler(event, data)

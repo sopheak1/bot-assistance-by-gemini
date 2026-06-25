@@ -21,8 +21,9 @@ class SqliteChatBindingRepository(ChatBindingRepository):
             chat_id=ChatId(model.chat_id),
             domain_context=DomainContext(model.domain_context),
             bound_by=TelegramUserId(model.owner_telegram_id),
-            bound_at=model.bound_at
+            bound_at=model.bound_at,
         )
+
     async def list_by_owner(self, telegram_id: TelegramUserId) -> list[ChatBinding]:
         stmt = select(ChatBindingModel).where(ChatBindingModel.owner_telegram_id == telegram_id)
         result = await self.session.execute(stmt)
@@ -32,8 +33,9 @@ class SqliteChatBindingRepository(ChatBindingRepository):
                 chat_id=ChatId(m.chat_id),
                 domain_context=DomainContext(m.domain_context),
                 bound_by=TelegramUserId(m.owner_telegram_id),
-                bound_at=m.bound_at
-            ) for m in models
+                bound_at=m.bound_at,
+            )
+            for m in models
         ]
 
     async def save(self, binding: ChatBinding) -> None:
@@ -41,6 +43,6 @@ class SqliteChatBindingRepository(ChatBindingRepository):
             chat_id=binding.chat_id,
             owner_telegram_id=binding.bound_by,
             domain_context=binding.domain_context.value,
-            bound_at=binding.bound_at
+            bound_at=binding.bound_at,
         )
         await self.session.merge(model)

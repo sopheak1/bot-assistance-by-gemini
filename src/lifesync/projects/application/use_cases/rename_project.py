@@ -11,6 +11,7 @@ class RenameProjectRequest:
     project_id: int
     new_name: str
 
+
 class RenameProjectUseCase:
     def __init__(self, repo: ProjectRepository, uow: UnitOfWork, clock: Clock):
         self.repo = repo

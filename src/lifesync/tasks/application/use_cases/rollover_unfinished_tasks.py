@@ -14,8 +14,11 @@ class RolloverTasksRequest:
     defer_ids: list[int]
     today: date
 
+
 class RolloverUnfinishedTasksUseCase:
-    def __init__(self, repo: TaskRepository, rollover_service: RolloverService, uow: UnitOfWork, clock: Clock):
+    def __init__(
+        self, repo: TaskRepository, rollover_service: RolloverService, uow: UnitOfWork, clock: Clock
+    ):
         self.repo = repo
         self.rollover_service = rollover_service
         self.uow = uow
@@ -23,9 +26,9 @@ class RolloverUnfinishedTasksUseCase:
 
     async def execute(self, request: RolloverTasksRequest) -> None:
         tasks = await self.repo.list_unfinished_before(ChatId(request.chat_id), request.today)
-        
+
         self.rollover_service.rollover(tasks, request.today, request.defer_ids)
-        
+
         async with self.uow:
             for t in tasks:
                 t.updated_at = self.clock.now()

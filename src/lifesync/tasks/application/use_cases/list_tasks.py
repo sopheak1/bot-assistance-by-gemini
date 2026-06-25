@@ -12,6 +12,7 @@ class TaskDTO:
     status: str
     deadline: date | None
 
+
 class ListTasksUseCase:
     def __init__(self, repo: TaskRepository):
         self.repo = repo
@@ -20,11 +21,11 @@ class ListTasksUseCase:
         tasks = await self.repo.list_by_project(project_id)
         return [
             TaskDTO(
-                id=t.id, # type: ignore
+                id=t.id,  # type: ignore
                 project_id=t.project_id,
                 description=t.description.value,
                 status=t.status.value,
-                deadline=t.deadline.value
+                deadline=t.deadline.value,
             )
             for t in tasks
         ]

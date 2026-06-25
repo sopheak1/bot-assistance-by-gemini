@@ -15,16 +15,23 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-import os
-import sys
+import os  # noqa: E402
+import sys  # noqa: E402
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))))
+sys.path.insert(
+    0,
+    os.path.dirname(
+        os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        )
+    ),
+)
 
-from lifesync.persistence.models.base import UserBase
+from lifesync.persistence.models.base import UserBase  # noqa: E402
 
 target_metadata = UserBase.metadata
 
-from lifesync.config.settings import settings
+from lifesync.config.settings import settings  # noqa: E402
 
 default_url = f"sqlite+aiosqlite:///{settings.USER_DB_DIR}/dummy.db"
 config.set_main_option("sqlalchemy.url", default_url)

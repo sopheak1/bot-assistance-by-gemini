@@ -8,16 +8,17 @@ from lifesync.persistence.models.base import UserBase
 
 class ProjectModel(UserBase):
     __tablename__ = "projects"
-    
+
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     chat_id: Mapped[int]
     name: Mapped[str]
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
 
+
 class TaskModel(UserBase):
     __tablename__ = "tasks"
-    
+
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     chat_id: Mapped[int]
     project_id: Mapped[int] = mapped_column(ForeignKey("projects.id"))
@@ -28,9 +29,10 @@ class TaskModel(UserBase):
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now(), onupdate=func.now())
     completed_at: Mapped[date | None]
 
+
 class HabitModel(UserBase):
     __tablename__ = "habits"
-    
+
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     chat_id: Mapped[int]
     name: Mapped[str]
@@ -41,9 +43,10 @@ class HabitModel(UserBase):
     longest_streak: Mapped[int] = mapped_column(default=0)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
+
 class HabitCheckInModel(UserBase):
     __tablename__ = "habit_checkins"
-    
+
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     habit_id: Mapped[int] = mapped_column(ForeignKey("habits.id"))
     effective_date: Mapped[date]
@@ -51,6 +54,4 @@ class HabitCheckInModel(UserBase):
     value_numeric: Mapped[int | None]
     checked_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
-    __table_args__ = (
-        UniqueConstraint('habit_id', 'effective_date', name='uq_habit_date'),
-    )
+    __table_args__ = (UniqueConstraint("habit_id", "effective_date", name="uq_habit_date"),)

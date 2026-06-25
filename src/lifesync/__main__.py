@@ -17,16 +17,18 @@ from lifesync.users.infrastructure.sqlite_user_settings_repository import (
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 class TickHandlerWrapper:
     def __init__(self, bot: Bot):
         self.notifier = TelegramNotifier(bot)
-    
+
     async def handle_tick(self) -> None:
         async with BotSessionLocal() as bot_session:
             user_repo = SqliteUserSettingsRepository(bot_session)
             clock = SystemClock()
             handler = HourlyTickHandler(bot_session, user_repo, clock, self.notifier)
             await handler.handle_tick()
+
 
 def start_scheduler(bot: Bot) -> APSchedulerAdapter:
     scheduler = AsyncIOScheduler()
@@ -35,16 +37,17 @@ def start_scheduler(bot: Bot) -> APSchedulerAdapter:
     clock_tick_scheduler.start()
     return clock_tick_scheduler
 
+
 async def main() -> None:
     bot = create_bot()
     dp = create_dispatcher()
-    
+
     logger.info("Initializing database...")
     await init_bot_db()
-    
+
     logger.info("Starting scheduler...")
     scheduler = start_scheduler(bot)
-    
+
     logger.info("Starting bot...")
     try:
         while True:
@@ -56,6 +59,7 @@ async def main() -> None:
                 await asyncio.sleep(5)
     finally:
         scheduler.scheduler.shutdown()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

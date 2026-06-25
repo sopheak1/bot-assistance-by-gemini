@@ -14,18 +14,19 @@ def create_bot() -> Bot:
         session = AiohttpSession(proxy=settings.HTTP_PROXY)
     return Bot(token=settings.BOT_TOKEN, session=session)
 
+
 def create_dispatcher() -> Dispatcher:
     fsm_storage = SqliteFSMStorage(db_path=settings.BOT_DB_PATH)
     dp = Dispatcher(storage=fsm_storage)
-    
+
     # Register global middlewares
     dp.update.outer_middleware(DatabaseMiddleware())
     dp.update.outer_middleware(ChatContextMiddleware())
-    
+
     # Register routers
     dp.include_router(chat_setup.router)
     dp.include_router(projects.router)
     dp.include_router(tasks.router)
     dp.include_router(habits.router)
-    
+
     return dp

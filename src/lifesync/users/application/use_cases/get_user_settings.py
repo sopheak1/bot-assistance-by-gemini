@@ -11,6 +11,7 @@ class UserSettingsDTO:
     standup_hour: int
     rollover_hour: int
 
+
 class GetUserSettingsUseCase:
     def __init__(self, repo: UserSettingsRepository):
         self.repo = repo
@@ -23,5 +24,5 @@ class GetUserSettingsUseCase:
             telegram_id=settings.telegram_id,
             timezone=settings.timezone.value,
             standup_hour=settings.standup_hour.value,
-            rollover_hour=settings.rollover_hour.value
+            rollover_hour=settings.rollover_hour.value,
         )

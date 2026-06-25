@@ -1,10 +1,11 @@
 from dataclasses import dataclass
-from enum import Enum
+from enum import StrEnum
 
 
-class HabitType(str, Enum):
+class HabitType(StrEnum):
     BINARY = "BINARY"
     NUMERIC = "NUMERIC"
+
 
 @dataclass(frozen=True)
 class Streak:

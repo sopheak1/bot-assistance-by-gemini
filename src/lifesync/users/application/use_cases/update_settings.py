@@ -13,6 +13,7 @@ class UpdateSettingsRequest:
     standup_hour: int | None = None
     rollover_hour: int | None = None
 
+
 class UpdateSettingsUseCase:
     def __init__(self, repo: UserSettingsRepository, uow: UnitOfWork):
         self.repo = repo
@@ -22,14 +23,14 @@ class UpdateSettingsUseCase:
         settings = await self.repo.get_by_telegram_id(TelegramUserId(request.telegram_id))
         if not settings:
             raise ValueError("User settings not found")
-        
+
         if request.timezone is not None:
             settings.update_timezone(Timezone(request.timezone))
         if request.standup_hour is not None:
             settings.update_standup_hour(StandupHour(request.standup_hour))
         if request.rollover_hour is not None:
             settings.update_rollover_hour(RolloverHour(request.rollover_hour))
-            
+
         async with self.uow:
             await self.repo.save(settings)
             await self.uow.commit()

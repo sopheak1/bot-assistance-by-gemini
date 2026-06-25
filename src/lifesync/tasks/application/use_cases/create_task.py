@@ -16,6 +16,7 @@ class CreateTaskRequest:
     description: str
     deadline: date | None = None
 
+
 class CreateTaskUseCase:
     def __init__(self, repo: TaskRepository, uow: UnitOfWork, clock: Clock):
         self.repo = repo
@@ -33,7 +34,7 @@ class CreateTaskUseCase:
             chat_id=ChatId(request.chat_id),
             created_at=now,
             updated_at=now,
-            completed_at=None
+            completed_at=None,
         )
         async with self.uow:
             saved = await self.repo.save(task)

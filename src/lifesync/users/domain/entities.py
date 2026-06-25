@@ -8,13 +8,16 @@ from lifesync.shared_kernel.domain.value_objects import TelegramUserId
 class Timezone:
     value: str
 
+
 @dataclass(frozen=True)
 class StandupHour:
-    value: int # 0-23
+    value: int  # 0-23
+
 
 @dataclass(frozen=True)
 class RolloverHour:
-    value: int # 0-23
+    value: int  # 0-23
+
 
 @dataclass
 class UserSettings:

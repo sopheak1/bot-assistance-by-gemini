@@ -6,9 +6,11 @@ from typing import NewType
 ChatId = NewType("ChatId", int)
 TelegramUserId = NewType("TelegramUserId", int)
 
+
 class DomainContext(StrEnum):
     WORK = "WORK"
     HABIT = "HABIT"
+
 
 @dataclass(frozen=True)
 class DateRange:

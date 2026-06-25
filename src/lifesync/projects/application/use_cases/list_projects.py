@@ -9,6 +9,7 @@ class ProjectDTO:
     id: int
     name: str
 
+
 class ListProjectsUseCase:
     def __init__(self, repo: ProjectRepository):
         self.repo = repo
@@ -17,8 +18,8 @@ class ListProjectsUseCase:
         projects = await self.repo.list_by_chat(ChatId(chat_id))
         return [
             ProjectDTO(
-                id=p.id, # type: ignore
-                name=p.name.value
+                id=p.id,  # type: ignore
+                name=p.name.value,
             )
             for p in projects
         ]
