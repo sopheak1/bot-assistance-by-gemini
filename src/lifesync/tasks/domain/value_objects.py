@@ -11,7 +11,7 @@ class TaskStatus(StrEnum):
 @dataclass(frozen=True)
 class ShortDescription:
     value: str
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if not self.value or len(self.value.strip()) == 0:
             raise ValueError("Task description cannot be empty")
         if len(self.value) > 200:

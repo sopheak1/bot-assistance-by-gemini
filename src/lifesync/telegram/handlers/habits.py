@@ -30,7 +30,9 @@ class CreateHabitWizard(StatesGroup):
     awaiting_name = State()
 
 @router.callback_query(F.data == "menu:habits")
-async def show_habits_menu(callback: types.CallbackQuery, user_session: AsyncSession):
+async def show_habits_menu(callback: types.CallbackQuery, user_session: AsyncSession) -> None:
+    if not isinstance(callback.message, types.Message):
+        return
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="➕ New Habit", callback_data="habit:create")],
         [InlineKeyboardButton(text="🔙 Back", callback_data="menu:main")]
@@ -40,13 +42,15 @@ async def show_habits_menu(callback: types.CallbackQuery, user_session: AsyncSes
     await callback.answer()
 
 @router.callback_query(F.data == "habit:create")
-async def start_create_habit(callback: types.CallbackQuery, state: FSMContext):
+async def start_create_habit(callback: types.CallbackQuery, state: FSMContext) -> None:
+    if not isinstance(callback.message, types.Message):
+        return
     await callback.message.answer("What is the name of the new habit?")
     await state.set_state(CreateHabitWizard.awaiting_name)
     await callback.answer()
 
 @router.message(CreateHabitWizard.awaiting_name)
-async def process_habit_name(message: types.Message, state: FSMContext, user_session: AsyncSession, domain_context: str):
+async def process_habit_name(message: types.Message, state: FSMContext, user_session: AsyncSession, domain_context: str) -> None:
     repo = SqliteHabitRepository(user_session)
     uow = SqlAlchemyUnitOfWork(user_session)
     clock = SystemClock()
@@ -68,7 +72,9 @@ async def process_habit_name(message: types.Message, state: FSMContext, user_ses
     await state.clear()
 
 @router.callback_query(F.data == "menu:checkin")
-async def show_checkin_menu(callback: types.CallbackQuery, user_session: AsyncSession):
+async def show_checkin_menu(callback: types.CallbackQuery, user_session: AsyncSession) -> None:
+    if not isinstance(callback.message, types.Message):
+        return
     repo = SqliteHabitRepository(user_session)
     checkin_repo = SqliteHabitCheckInRepository(user_session)
     use_case = ListHabitsForStandupUseCase(repo, checkin_repo)
@@ -87,7 +93,9 @@ async def show_checkin_menu(callback: types.CallbackQuery, user_session: AsyncSe
     await callback.answer()
 
 @router.callback_query(F.data.startswith("habit:checkin:"))
-async def process_habit_checkin(callback: types.CallbackQuery, user_session: AsyncSession, domain_context: str):
+async def process_habit_checkin(callback: types.CallbackQuery, user_session: AsyncSession, domain_context: str) -> None:
+    if not isinstance(callback.message, types.Message) or not callback.data:
+        return
     habit_id = int(callback.data.split(":")[2])
     
     repo = SqliteHabitRepository(user_session)

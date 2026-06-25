@@ -23,7 +23,9 @@ class CreateTaskWizard(StatesGroup):
     awaiting_description = State()
 
 @router.callback_query(F.data == "menu:tasks")
-async def show_tasks_menu(callback: types.CallbackQuery, user_session: AsyncSession):
+async def show_tasks_menu(callback: types.CallbackQuery, user_session: AsyncSession) -> None:
+    if not isinstance(callback.message, types.Message):
+        return
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="➕ New Task", callback_data="task:create")],
         [InlineKeyboardButton(text="🔙 Back", callback_data="menu:main")]
@@ -33,7 +35,9 @@ async def show_tasks_menu(callback: types.CallbackQuery, user_session: AsyncSess
     await callback.answer()
 
 @router.callback_query(F.data == "task:create")
-async def start_create_task(callback: types.CallbackQuery, state: FSMContext, user_session: AsyncSession):
+async def start_create_task(callback: types.CallbackQuery, state: FSMContext, user_session: AsyncSession) -> None:
+    if not isinstance(callback.message, types.Message):
+        return
     repo = SqliteProjectRepository(user_session)
     projects = await ListProjectsUseCase(repo).execute(callback.message.chat.id)
     
@@ -51,7 +55,9 @@ async def start_create_task(callback: types.CallbackQuery, state: FSMContext, us
     await callback.answer()
 
 @router.callback_query(CreateTaskWizard.awaiting_project, F.data.startswith("task:project:"))
-async def process_task_project(callback: types.CallbackQuery, state: FSMContext):
+async def process_task_project(callback: types.CallbackQuery, state: FSMContext) -> None:
+    if not isinstance(callback.message, types.Message) or not callback.data:
+        return
     project_id = int(callback.data.split(":")[2])
     await state.update_data(project_id=project_id)
     
@@ -60,7 +66,7 @@ async def process_task_project(callback: types.CallbackQuery, state: FSMContext)
     await callback.answer()
 
 @router.message(CreateTaskWizard.awaiting_description)
-async def process_task_description(message: types.Message, state: FSMContext, user_session: AsyncSession, domain_context: str):
+async def process_task_description(message: types.Message, state: FSMContext, user_session: AsyncSession, domain_context: str) -> None:
     data = await state.get_data()
     project_id = data["project_id"]
     

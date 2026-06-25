@@ -14,7 +14,7 @@ from lifesync.habits.infrastructure.sqlite_habit_repository import (
     SqliteHabitCheckInRepository,
     SqliteHabitRepository,
 )
-from lifesync.notifications.domain.ports import NotifierPort  # type: ignore
+from lifesync.notifications.domain.ports import NotifierPort
 from lifesync.persistence.db import get_user_session_maker
 from lifesync.persistence.uow import SqlAlchemyUnitOfWork
 from lifesync.quotes.application.use_cases.get_motivational_quote import GetMotivationalQuoteUseCase

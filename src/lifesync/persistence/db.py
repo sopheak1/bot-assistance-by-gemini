@@ -26,7 +26,7 @@ async def get_user_session_maker(telegram_id: int) -> async_sessionmaker[AsyncSe
         _user_engines[telegram_id] = async_sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
     return _user_engines[telegram_id]
 
-async def init_bot_db():
+async def init_bot_db() -> None:
     async with bot_engine.begin() as conn:
         await conn.run_sync(BotBase.metadata.create_all)
 

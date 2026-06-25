@@ -18,4 +18,4 @@ class SqliteQuoteProvider(QuoteProvider):
         if not model:
             # Fallback if DB is empty
             return Quote(text="Keep pushing forward!", author="Life-Sync Bot")
-        return Quote(text=model.text, author=model.author)
+        return Quote(text=model.text, author=model.author or "Unknown")

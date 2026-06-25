@@ -38,4 +38,5 @@ class CreateTaskUseCase:
         async with self.uow:
             saved = await self.repo.save(task)
             await self.uow.commit()
+            assert saved.id is not None
             return saved.id

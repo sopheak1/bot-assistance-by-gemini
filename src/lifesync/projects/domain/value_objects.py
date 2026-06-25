@@ -5,7 +5,7 @@ from dataclasses import dataclass
 class ProjectName:
     value: str
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if not self.value or len(self.value.strip()) == 0:
             raise ValueError("Project name cannot be empty")
         if len(self.value) > 100:

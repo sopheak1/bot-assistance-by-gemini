@@ -37,4 +37,5 @@ class CreateHabitUseCase:
         async with self.uow:
             saved = await self.repo.save(habit)
             await self.uow.commit()
+            assert saved.id is not None
             return saved.id

@@ -2,7 +2,7 @@ import asyncio
 import logging
 
 from aiogram import Bot
-from apscheduler.schedulers.asyncio import AsyncIOScheduler  # type: ignore
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
 from lifesync.notifications.infrastructure.telegram_notifier import TelegramNotifier
 from lifesync.persistence.db import BotSessionLocal, init_bot_db
@@ -21,7 +21,7 @@ class TickHandlerWrapper:
     def __init__(self, bot: Bot):
         self.notifier = TelegramNotifier(bot)
     
-    async def handle_tick(self):
+    async def handle_tick(self) -> None:
         async with BotSessionLocal() as bot_session:
             user_repo = SqliteUserSettingsRepository(bot_session)
             clock = SystemClock()
@@ -35,7 +35,7 @@ def start_scheduler(bot: Bot) -> APSchedulerAdapter:
     clock_tick_scheduler.start()
     return clock_tick_scheduler
 
-async def main():
+async def main() -> None:
     bot = create_bot()
     dp = create_dispatcher()
     

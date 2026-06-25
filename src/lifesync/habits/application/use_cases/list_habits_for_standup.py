@@ -23,9 +23,10 @@ class ListHabitsForStandupUseCase:
         habits = await self.habit_repo.list_by_chat(ChatId(chat_id))
         result = []
         for habit in habits:
+            assert habit.id is not None
             checkin = await self.checkin_repo.get_by_habit_and_date(habit.id, effective_date)
             result.append(HabitStandupItem(
-                habit_id=habit.id, # type: ignore
+                habit_id=habit.id,
                 name=habit.name,
                 habit_type=habit.habit_type.value,
                 numeric_target=habit.numeric_target,

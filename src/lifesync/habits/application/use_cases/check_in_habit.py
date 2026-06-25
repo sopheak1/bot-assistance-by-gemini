@@ -42,6 +42,7 @@ class CheckInHabitUseCase:
             if habit.numeric_target is not None and request.value_numeric < habit.numeric_target:
                 raise ValueError(f"Value {request.value_numeric} does not meet target {habit.numeric_target}")
                 
+        assert habit.id is not None
         existing = await self.checkin_repo.get_by_habit_and_date(habit.id, request.effective_date)
         if existing:
             return

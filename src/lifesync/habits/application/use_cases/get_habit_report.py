@@ -25,9 +25,10 @@ class GetHabitReportUseCase:
         start_date = today - timedelta(days=6)
         
         for habit in habits:
+            assert habit.id is not None
             checkins = await self.checkin_repo.list_by_habit_in_range(habit.id, start_date, today)
             report.append(HabitReportItem(
-                habit_id=habit.id, # type: ignore
+                habit_id=habit.id,
                 name=habit.name,
                 habit_type=habit.habit_type.value,
                 current_streak=habit.streak.current,

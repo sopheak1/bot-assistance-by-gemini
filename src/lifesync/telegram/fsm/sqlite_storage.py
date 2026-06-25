@@ -1,5 +1,5 @@
 import json
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Mapping
 
 import aiosqlite
 from aiogram.fsm.storage.base import BaseStorage, StateType, StorageKey
@@ -14,18 +14,18 @@ class SqliteFSMStorage(BaseStorage):
         self.db_path = db_path
         self._db_initialized = False
 
-    async def _execute(self, query: str, params: tuple = ()) -> None:
+    async def _execute(self, query: str, params: tuple[Any, ...] = ()) -> None:
         async with aiosqlite.connect(self.db_path) as db:
             await db.execute(query, params)
             await db.commit()
             
-    async def _fetch_one(self, query: str, params: tuple = ()) -> Optional[aiosqlite.Row]:
+    async def _fetch_one(self, query: str, params: tuple[Any, ...] = ()) -> Optional[aiosqlite.Row]:
         async with aiosqlite.connect(self.db_path) as db:
             db.row_factory = aiosqlite.Row
             async with db.execute(query, params) as cursor:
                 return await cursor.fetchone()
 
-    async def _init_db(self):
+    async def _init_db(self) -> None:
         if self._db_initialized:
             return
             
@@ -45,7 +45,7 @@ class SqliteFSMStorage(BaseStorage):
 
     async def set_state(self, key: StorageKey, state: StateType = None) -> None:
         await self._init_db()
-        state_str = state.state if hasattr(state, "state") else state
+        state_str = getattr(state, "state", state) if state is not None else None
         
         row = await self._fetch_one(
             "SELECT data FROM fsm_state WHERE chat_id=? AND user_id=? AND bot_id=? AND destiny=?",
@@ -79,7 +79,7 @@ class SqliteFSMStorage(BaseStorage):
         )
         return row["state"] if row else None
 
-    async def set_data(self, key: StorageKey, data: Dict[str, Any]) -> None:
+    async def set_data(self, key: StorageKey, data: Mapping[str, Any]) -> None:
         await self._init_db()
         data_str = json.dumps(data)
         
@@ -105,14 +105,15 @@ class SqliteFSMStorage(BaseStorage):
             (key.chat_id, key.user_id, key.bot_id, key.destiny, state_str, data_str)
         )
 
-    async def get_data(self, key: StorageKey) -> Dict[str, Any]:
+    async def get_data(self, key: StorageKey) -> dict[str, Any]:
         await self._init_db()
         row = await self._fetch_one(
             "SELECT data FROM fsm_state WHERE chat_id=? AND user_id=? AND bot_id=? AND destiny=?",
             (key.chat_id, key.user_id, key.bot_id, key.destiny)
         )
         if row and row["data"]:
-            return json.loads(row["data"])
+            from typing import cast
+            return cast(dict[str, Any], json.loads(row["data"]))
         return {}
         
     async def close(self) -> None:

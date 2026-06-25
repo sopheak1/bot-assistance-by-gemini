@@ -11,7 +11,7 @@ class Streak:
     current: int
     longest: int
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if self.current < 0 or self.longest < 0:
             raise ValueError("Streak cannot be negative")
         if self.current > self.longest:

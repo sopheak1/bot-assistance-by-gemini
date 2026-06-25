@@ -23,7 +23,7 @@ from lifesync.users.infrastructure.sqlite_user_settings_repository import (
 router = Router(name="chat_setup")
 
 @router.message(Command("start"))
-async def cmd_start(message: types.Message, domain_context: str | None = None):
+async def cmd_start(message: types.Message, domain_context: str | None = None) -> None:
     if not domain_context:
         await message.answer(
             "Welcome to Life-Sync Assistant! 🚀\n\n"
@@ -39,15 +39,15 @@ async def cmd_start(message: types.Message, domain_context: str | None = None):
         )
 
 @router.message(Command("init_work"))
-async def cmd_init_work(message: types.Message, bot_session: AsyncSession):
+async def cmd_init_work(message: types.Message, bot_session: AsyncSession) -> None:
     await _init_domain(message, bot_session, "WORK")
 
 @router.message(Command("init_habit"))
-async def cmd_init_habit(message: types.Message, bot_session: AsyncSession):
+async def cmd_init_habit(message: types.Message, bot_session: AsyncSession) -> None:
     await _init_domain(message, bot_session, "HABIT")
 
 @router.message(Command("help"))
-async def cmd_help(message: types.Message):
+async def cmd_help(message: types.Message) -> None:
     await message.answer(
         "📚 **Life-Sync Assistant Commands**\n\n"
         "/start - Show the main menu (requires a workspace)\n"
@@ -58,7 +58,7 @@ async def cmd_help(message: types.Message):
         parse_mode="Markdown"
     )
 
-async def _init_domain(message: types.Message, bot_session: AsyncSession, domain: str):
+async def _init_domain(message: types.Message, bot_session: AsyncSession, domain: str) -> None:
     if not message.from_user:
         return
         
@@ -87,7 +87,7 @@ async def _init_domain(message: types.Message, bot_session: AsyncSession, domain
 from aiogram.filters import StateFilter
 
 @router.message(F.text, StateFilter(None))
-async def fallback_text_handler(message: types.Message, domain_context: str | None = None):
+async def fallback_text_handler(message: types.Message, domain_context: str | None = None) -> None:
     if domain_context:
         await message.answer("I'm not sure what you mean. Please use the menu buttons to interact!", reply_markup=get_main_menu(domain_context))
     else:

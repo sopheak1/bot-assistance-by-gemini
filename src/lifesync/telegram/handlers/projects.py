@@ -20,7 +20,9 @@ class CreateProjectWizard(StatesGroup):
     awaiting_name = State()
 
 @router.callback_query(F.data == "menu:projects")
-async def show_projects_menu(callback: types.CallbackQuery, user_session: AsyncSession):
+async def show_projects_menu(callback: types.CallbackQuery, user_session: AsyncSession) -> None:
+    if not isinstance(callback.message, types.Message):
+        return
     repo = SqliteProjectRepository(user_session)
     use_case = ListProjectsUseCase(repo)
     
@@ -42,18 +44,22 @@ async def show_projects_menu(callback: types.CallbackQuery, user_session: AsyncS
     await callback.answer()
 
 @router.callback_query(F.data == "menu:main")
-async def back_to_main(callback: types.CallbackQuery, domain_context: str):
+async def back_to_main(callback: types.CallbackQuery, domain_context: str) -> None:
+    if not isinstance(callback.message, types.Message):
+        return
     await callback.message.edit_text("Main Menu:", reply_markup=get_main_menu(domain_context))
     await callback.answer()
 
 @router.callback_query(F.data == "project:create")
-async def start_create_project(callback: types.CallbackQuery, state: FSMContext):
+async def start_create_project(callback: types.CallbackQuery, state: FSMContext) -> None:
+    if not isinstance(callback.message, types.Message):
+        return
     await callback.message.answer("What is the name of the new project?")
     await state.set_state(CreateProjectWizard.awaiting_name)
     await callback.answer()
 
 @router.message(CreateProjectWizard.awaiting_name)
-async def process_project_name(message: types.Message, state: FSMContext, user_session: AsyncSession, domain_context: str):
+async def process_project_name(message: types.Message, state: FSMContext, user_session: AsyncSession, domain_context: str) -> None:
     
     repo = SqliteProjectRepository(user_session)
     uow = SqlAlchemyUnitOfWork(user_session)
