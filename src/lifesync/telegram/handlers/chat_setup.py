@@ -84,7 +84,9 @@ async def _init_domain(message: types.Message, bot_session: AsyncSession, domain
         reply_markup=get_main_menu(domain)
     )
 
-@router.message(F.text)
+from aiogram.filters import StateFilter
+
+@router.message(F.text, StateFilter(None))
 async def fallback_text_handler(message: types.Message, domain_context: str | None = None):
     if domain_context:
         await message.answer("I'm not sure what you mean. Please use the menu buttons to interact!", reply_markup=get_main_menu(domain_context))
