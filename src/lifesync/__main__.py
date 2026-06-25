@@ -25,7 +25,7 @@ class TickHandlerWrapper:
         async with BotSessionLocal() as bot_session:
             user_repo = SqliteUserSettingsRepository(bot_session)
             clock = SystemClock()
-            handler = HourlyTickHandler(user_repo, clock, self.notifier)
+            handler = HourlyTickHandler(bot_session, user_repo, clock, self.notifier)
             await handler.handle_tick()
 
 def start_scheduler(bot: Bot) -> APSchedulerAdapter:
@@ -47,7 +47,13 @@ async def main():
     
     logger.info("Starting bot...")
     try:
-        await dp.start_polling(bot, polling_timeout=10)
+        while True:
+            try:
+                await dp.start_polling(bot, polling_timeout=10)
+                break
+            except Exception as e:
+                logger.error(f"Polling crashed: {e}. Reconnecting in 5 seconds...")
+                await asyncio.sleep(5)
     finally:
         scheduler.scheduler.shutdown()
 
