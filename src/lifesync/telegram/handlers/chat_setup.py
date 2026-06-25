@@ -45,6 +45,18 @@ async def cmd_init_work(message: types.Message, bot_session: AsyncSession):
 async def cmd_init_habit(message: types.Message, bot_session: AsyncSession):
     await _init_domain(message, bot_session, "HABIT")
 
+@router.message(Command("help"))
+async def cmd_help(message: types.Message):
+    await message.answer(
+        "📚 **Life-Sync Assistant Commands**\n\n"
+        "/start - Show the main menu (requires a bound chat)\n"
+        "/init_work - Bind this chat for Work/Project Management\n"
+        "/init_habit - Bind this chat for Habit Tracking\n"
+        "/help - Show this help message\n\n"
+        "Most interactions are done via the inline buttons by sending `/start` after initializing.",
+        parse_mode="Markdown"
+    )
+
 async def _init_domain(message: types.Message, bot_session: AsyncSession, domain: str):
     if not message.from_user:
         return
