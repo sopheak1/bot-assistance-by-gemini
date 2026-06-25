@@ -77,4 +77,8 @@ async def _init_domain(message: types.Message, bot_session: AsyncSession, domain
     
     await register_use_case.execute(RegisterUserRequest(telegram_id=message.from_user.id))
     
-    await message.answer(f"✅ This chat is now bound to the {domain} domain.\nYour default settings (UTC+7 timezone, 9 AM standup, 2 AM rollover) have been applied.")
+    await message.answer(
+        f"✅ This chat is now bound to the {domain} domain.\nYour default settings (UTC+7 timezone, 9 AM standup, 2 AM rollover) have been applied.\n\n"
+        "Use the menu below to get started:",
+        reply_markup=get_main_menu(domain)
+    )
