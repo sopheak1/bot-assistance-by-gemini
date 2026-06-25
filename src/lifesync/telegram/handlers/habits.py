@@ -55,7 +55,7 @@ async def process_habit_name(message: types.Message, state: FSMContext, user_ses
     
     req = CreateHabitRequest(
         chat_id=message.chat.id,
-        name=message.text,
+        name=message.text or "Untitled",
         habit_type="BINARY"
     )
     

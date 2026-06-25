@@ -72,9 +72,8 @@ async def process_task_description(message: types.Message, state: FSMContext, us
     
     req = CreateTaskRequest(
         chat_id=message.chat.id,
-        telegram_id=message.from_user.id,
         project_id=project_id,
-        description=message.text,
+        description=message.text or "Untitled",
         deadline=None
     )
     

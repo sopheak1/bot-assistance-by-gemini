@@ -54,6 +54,7 @@ async def start_create_project(callback: types.CallbackQuery, state: FSMContext)
 
 @router.message(CreateProjectWizard.awaiting_name)
 async def process_project_name(message: types.Message, state: FSMContext, user_session: AsyncSession, domain_context: str):
+    
     repo = SqliteProjectRepository(user_session)
     uow = SqlAlchemyUnitOfWork(user_session)
     clock = SystemClock()
@@ -62,8 +63,7 @@ async def process_project_name(message: types.Message, state: FSMContext, user_s
     
     req = CreateProjectRequest(
         chat_id=message.chat.id,
-        telegram_id=message.from_user.id,
-        name=message.text
+        name=message.text or "Untitled"
     )
     
     try:
